@@ -213,8 +213,6 @@ that were necessary to clean up the build model.
 Authors of free software libraries available on Quicklisp were contacted
 if they were abusing those internals
 and those who still maintain them fixed them.
-But if anyone has proprietary software that directly accesses @(ASDF) internals
-they will have to feel the pain and fix any breakage themselves.
 
 
 @section{Source Location Configuration}
