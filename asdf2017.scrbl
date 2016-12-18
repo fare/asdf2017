@@ -103,15 +103,16 @@ but can be unacceptable when delivering an application
 to be accessed at the shell command-line.
 A Lisp application delivered as a standalone executable using @(ASDF3)
 can start in ten or twenty milliseconds which makes it acceptable
-for interactive use at the shell command-line; but it has a size overhead of
-tens or hundreds of megabytes on disk and in memory,
-which is totally acceptable for most applications, but not for delivering
-lots of small scripts and utilities.
-To bridge this gap, Zach Beane's @tt{buildapp} has been able to deliver
-"multicall binaries" à la Busybox since 2010 on SBCL (and now CCL);
-since 2015, @tt{cl-launch},
-the portable interface between the Unix shell and @(CL) software
-can now do the same on all implementations @~cite[CL-Scripting-2015].
+for interactive use at the shell command-line. With tens or hundreds of
+megabytes on disk and in memory, the size overhead is considerable, however;
+enough to matter in embedded environments or for intentionally small
+command line utilities and scripts.
+This issue is addressed by the ability of Zach Beane's @tt{buildapp}
+to deliver "multicall binaries" à la Busybox -- a feature that is only
+provides on SBCL (since 2010) and (more recently) CCL, though.
+In 2015, the ability to deliver multicall binaries was also added to @tt{cl-launch},
+the portable interface between the Unix shell and @(CL) software @~cite[CL-Scripting-2015] --
+this time without restrictions on the @(CL) implementation.
 Libraries now also exist to help write Lisp utilities that are callable and
 usable at the shell command-line as well as at the @(CL) command-line.
 
