@@ -9,7 +9,7 @@
           "utils.rkt" "bibliography.scrbl")
 
 @authorinfo["Robert P. Goldman" "SIFT" "rpgoldman@sift.info"]
-@authorinfo["Elias Pipping" "FU Berlin" "pipping.elias@icloud.com"]
+@authorinfo["Elias Pipping" "FU Berlin" "elias.pipping@fu-berlin.de"]
 @authorinfo["François-René Rideau" "TUNES" "fare@tunes.org"]
 
 @conferenceinfo["ELS 2017" "April 3--4, Brussel, Belgium."]
