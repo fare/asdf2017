@@ -82,7 +82,7 @@
 
 (defpretty cl
   UIOP defsystem mk-defsystem
-  run-shell-command run-program launch-program
+  run-shell-command run-program launch-program wait-process terminate-process
 
   inferior-shell run run/nil run/string run/ss
 
