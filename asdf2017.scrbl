@@ -140,7 +140,7 @@ it handles redirection and transformation of input, output and error-output,
 error status, etc.
 Now in 2016, the second author refactored and extended the underlying
 logic such that also spawning of and basic interaction with
-asynchronous processes could be exposed to the user in @(ASDF) 3.2,
+asynchronous processes could be exposed to the user in @(ASDF3.2),
 at least on those implementations and platforms that support them. Newly
 added functions in this context include @(launch-program), @(wait-process),
 and @(terminate-process).
