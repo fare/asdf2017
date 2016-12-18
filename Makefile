@@ -21,7 +21,7 @@ install: asdf2017.html asdf2017.pdf
 	donuts.pl unhtml < $< | wc
 
 %.PDF: %.pdf
-	evince $<
+	evince -f -i $${p:-1} $<
 
 %.pdf: %.scrbl ${src}
 	time scribble --dest-name $@ --pdf $<
