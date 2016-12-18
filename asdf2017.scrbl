@@ -169,52 +169,52 @@ The original @(ASDF1) introduced a simple and elegant "plan then execute" model
 for building software. It also introduced a simple and elegant extensible
 object model for extending the build model to support more than just
 compiling simple Lisp files (such as CFFI to compile C extensions).
-However, these two features were at odds: because to load a program
-that uses an extension, you would first use @(ASDF) to plan and execute
-the loading of the extension, then you could plan and load the loading
-of the target program, in two separate phases of planning and execution.
+However, these two features were at odds with one another: to load a program
+that uses an extension, one would first use @(ASDF) to plan and execute
+loading the extension, then one could plan and execute loading
+the target program, in two separate phases of planning and execution.
 And of course, there could be more than just two phases, and there could also
-be libraries used in several phases.
+be libraries that would be used in several phases.
 
-In practice, things worked well enough when building a program from scratch,
-except for some libraries sometimes being compiled or loaded multiple times.
-But if you tried an incremental build, @(ASDF) could sometimes overlook how
-a change in one phase could affect the build in a latter phase, and fail to
-invalidate and recompile actions of the latter phase.
-Users had to notice that the build was wrong and
-to manually force a rebuild from scratch.
+In practice, this simple approach was effective in building a program from scratch,
+albeit not necessarily most efficient since libraries could sometimes unnecessarily be compiled or loaded more than once.
+In the case of an incremental build, however, @(ASDF) would sometimes overlook that
+a change in one phase could affect the build in a later phase, and fail to
+invalidate and recompile its actions.
+It was then up to the user to diagnose the failure and
+force a rebuild from scratch.
 
 @(ASDF3.3) fixes this issue by properly supporting the notion of
 a session within which code is built and loaded in several phases;
-it will maintain a status for traversed actions across phases of a session,
+it tracks the status of traversed actions across phases of a session,
 whereby an action can independently be
 (1) kept from a previous session or invalid at the start of the session,
 (2) done or not done for the session,
 and (3) needed or not needed during the session.
 While merely checking whether an action is still valid from previous sessions,
-special care is taken not to effect build side-effect of potentially
+special care is taken not to affect build side-effect of potentially
 either out-of-date or not needed for the session;
 there are therefore several variants of traversals for the action graph.
 
-Note that the problem of correctly tracking dependencies in presence
-of build extensions is a problem that people have in every build system
+Note that the problem of dependency tracking in the presence
+of build extensions is a one that people have in every build system
 in every language. Most build systems do not deal well with phase separation,
 and most that do are, like @(ASDF), language-specific build systems
-that only deal with macros inside the language but not with
-allowing building arbitrary code outside the language.
-A notable exception is Bazel, that has an extension language
-that allows it to build for arbitrary languages
-(including Lisp @~cite[Bazelisp-2016]), and properly handles
+that only deal with macros inside the language, not
+building arbitrary code outside the language.
+A notable exception is Bazel, which has an extension language
+that allows it to build arbitrary languages
+(including Lisp @~cite[Bazelisp-2016]) and properly handle
 dependencies on build system extensions.
 @; Citation needed?
 
-@(ASDF3.3) also includes some backward-incompatible changes to internals,
+@(ASDF3.3) also includes some backward-incompatible changes to internals
 that were necessary to clean up the build model.
 Authors of free software libraries available on Quicklisp were contacted
-if they were abusing those internals;
+if they were abusing those internals
 and those who still maintain them fixed them.
 But if anyone has proprietary software that directly accesses @(ASDF) internals
-they will have to feel the pain and fix any breakage by themselves.
+they will have to feel the pain and fix any breakage themselves.
 
 
 @section{Source Location Configuration}
