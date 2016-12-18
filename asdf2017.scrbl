@@ -137,7 +137,7 @@ and by @(ASDF3.1) it has become a full-fledged portable interface
 to synchronously executing subprocesses;
 it handles redirection and transformation of input, output and error-output,
 error status, etc.
-Now in 2016, Elias Pipping carved a function @(launch-program) into @(ASDF) 3.2,
+Now in 2016, the second author carved a function @(launch-program) into @(ASDF) 3.2,
 which offers a portable interface to asynchronous execution of subprocesses
 on the implementations that allow it at all.
 
