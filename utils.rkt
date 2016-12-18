@@ -61,7 +61,7 @@
 (define (bydef . x) (emph x))
 
 (define (software-version software (version #f))
-  (if version (list (cl software) (format " ~a" version)) (cl software)))
+  (if version (list software (format " ~a" version)) software))
 (define (ASDF (version #f)) (software-version "ASDF" version))
 (define (ASDF1) (ASDF 1))
 (define (ASDF2) (ASDF 2))
@@ -69,6 +69,7 @@
 (define (ASDF3.1) (ASDF 3.1))
 (define (ASDF3.2) (ASDF 3.2))
 (define (ASDF3.3) (ASDF 3.3))
+(define (UIOP) "UIOP")
 (define (cl-launch (version #f)) (software-version "cl-launch" version))
 (define (FRR) "François-René Rideau")
 (define (EP) "Elias Pipping")
@@ -82,7 +83,7 @@
              (define (name) (pretty string)) ...))])))
 
 (defpretty cl
-  UIOP defsystem mk-defsystem
+  defsystem mk-defsystem
   run-shell-command run-program launch-program wait-process terminate-process
 
   inferior-shell run run/nil run/string run/ss

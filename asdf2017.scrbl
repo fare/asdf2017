@@ -53,14 +53,15 @@ on Linux, Windows, macOS, and more.
 has matured from a wildly successful experiment
 to a universally used robust portable tool,
 while maintaining backward compatibility through several generations of code,
-from the original @(ASDF) in 2002 to @(ASDF2) in 2010, @(ASDF3) in 2013,
+from the original @(ASDF) in 2002 @~cite[ASDF-Manual]
+to @(ASDF2) in 2010, @(ASDF3) in 2013,
 and now @(ASDF3.3) in 2017.
 It is provided as a loadable extension by all active implementations,
 and is notably used by Quicklisp @~cite[quicklisp],
 a growing collection of now over 1400 @(CL) libraries.
-We will present notable improvements
+We present notable improvements
 since we last published on @(ASDF) @~cite[Lisp-Acceptable-Scripting-Language],
-beside general robustness and portability fixes and addressing bitrot.
+beside addressing portability, bugs and bitrot.
 
 @section{Application Delivery}
 
@@ -75,7 +76,7 @@ as a combined source or compiled file to load into an existing Lisp image,
 as an image to serve as the basis for further development,
 or as a standalone application.
 
-Since 2015, @tt{cffi-toolchain}, distributed as part of the de facto standard
+Since 2015, cffi-toolchain, distributed as part of the de facto standard
 C foreign function interface layer CFFI, further extends @(ASDF3.1) with
 the ability to portably deliver applications as a single-file that
 contains arbitrary C code and libraries statically-linked into an executable;
@@ -242,7 +243,7 @@ just to recursively scan filesystem trees in the source-registry
 for @tt{.asd} files. Since 2014, @(ASDF) provides a script
 @tt{tools/cl-source-registry-cache.lisp} that will scan a tree in advance
 and create a file @tt{.cl-source-registry.cache} with the results, that
-@(ASDF) will consult. Thus, power-users can have @(ASDF) have the scanning
+@(ASDF) will consult. Thus, power-users can have @(ASDF) get the scanning
 results at startup in milliseconds; the price they pay is having to re-run
 the scanning script whenever they install new software or remove old software
 (or edit the file), just like they had to in the bad old days of @(ASDF1),
