@@ -71,17 +71,17 @@ easier configuration.
 Michael Goffioul in 2005 implemented "bundle operations" as
 an extension to @(ASDF) on ECL to create static and dynamic
 libraries and executables from Lisp systems.
-In 2012, @(FRR) ported it to other Lisp implementations
-then made part of @(ASDF3).
+In 2012, @(FRR) ported it to other Lisp implementations,
+then made it part of @(ASDF3).
 This functionality has since received a lot of attention
 to make it stable and robust across Lisp implementations and Operating Systems.
 Therefore, it is now possible on all implementations to create
 a single-file deliverable for your library or your application,
 either as a combined FASL file (compiler output)
 to load into an existing Lisp implementation,
-or as an executable image that either
-can serve as the basis for further development
-or can be a standalone application.
+or as an executable image that can serve either
+as the basis for further development
+or as a standalone application.
 Where portability is paramount, you can even deliver all your code
 as a single concatenated source file.
 
@@ -92,7 +92,7 @@ contains arbitrary C code and libraries statically-linked into an executable;
 it currently only works on three software implementations: CLISP, CMUCL and SBCL.
 Previously this was only practically possible to do with ECL and MKCL,
 using the standard @(ASDF3) bundle operations.
-Unhappily, the popular implementation SBCL currently requires a simple patch
+Unfortunately, the popular implementation SBCL currently requires a simple patch
 to support statically-linked libraries.
 
 Loading a Lisp application from source, or even from compiled files,
