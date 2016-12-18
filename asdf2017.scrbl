@@ -122,9 +122,9 @@ usable at the shell command-line as well as at the @(CL) command-line.
 from @(mk-defsystem) @~cite[MK-DEFSYSTEM], that
 allowed to synchronously execute commands in a subprocess.
 However the function was not very portable;
-it couldn't capture the output (and actually polluted it);
-it didn't handle quoting well and instead was encouraging brittle code;
-it didn't work on Windows.
+it could not capture the output (and actually polluted it);
+it did not handle quoting well and instead was encouraging brittle code;
+it did not work on Windows.
 
 @(ASDF3) included a portability library @(UIOP),
 providing robust utilities that abstract away the differences between
@@ -217,7 +217,7 @@ they will have to feel the pain and fix any breakage by themselves.
 
 In 2010, @(ASDF2) introduced a basic Principle for all configuration:
 @emph{allow each one to contribute what he knows when he knows it,
-and do not require anyone to contribute what he doesn't know.}
+and do not require anyone to contribute what he does not know.}
 In particular, everything should "just work" by default for end-users,
 without any need for configuration:
 configuration is possible, but is only for power users
