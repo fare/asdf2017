@@ -50,7 +50,7 @@ with a systems paradigm @~cite[Incommensurability],
 has more than ten actively used implementations
 on Linux, Windows, macOS, and more.
 @(ASDF), the @(de_facto) standard build system for @(CL),
-has matured from a widely successful experiment in 2002,
+has matured from a wildly successful experiment
 to a universally used robust portable tool,
 while maintaining backward compatibility through several generations of code,
 from the original @(ASDF) in 2002 to @(ASDF2) in 2010, @(ASDF3) in 2013,
@@ -64,32 +64,27 @@ beside general robustness and portability fixes and addressing bitrot.
 
 @section{Application Delivery}
 
-Michael Goffioul in 2005 implemented "bundle operations" as
+In 2005, Michael Goffioul implemented "bundle operations",
 an extension to @(ASDF) on ECL to create static and dynamic
 libraries and executables from Lisp systems.
 In 2012, @(FRR) ported it to other Lisp implementations,
-then made it part of @(ASDF3).
-This functionality has since received a lot of attention
-to make it stable and robust across Lisp implementations and Operating Systems.
-Therefore, it is now possible on all implementations to create
-a single-file deliverable for your library or your application,
-either as a combined FASL file (compiler output)
-to load into an existing Lisp implementation,
-or as an executable image that can serve either
-as the basis for further development
+then made it part of @(ASDF3), and eventually made it stable and robust
+across Lisp implementations and Operating Systems.
+It is now possible to portably deliver software as a single-file:
+as a combined source or compiled file to load into an existing Lisp image,
+as an image to serve as the basis for further development,
 or as a standalone application.
-Where portability is paramount, you can even deliver all your code
-as a single concatenated source file.
 
 Since 2015, @tt{cffi-toolchain}, distributed as part of the de facto standard
 C foreign function interface layer CFFI, further extends @(ASDF3.1) with
 the ability to portably deliver applications as a single-file that
 contains arbitrary C code and libraries statically-linked into an executable;
-it currently only works on three software implementations: CLISP, CMUCL and SBCL.
+it currently only works on three software implementations:
+CLISP, CMUCL and SBCL.
 Previously this was only practically possible to do with ECL and MKCL,
 using the standard @(ASDF3) bundle operations.
-Unfortunately, the popular implementation SBCL currently requires a simple patch
-to support statically-linked libraries.
+Unfortunately, the popular implementation SBCL
+currently requires a simple patch.
 
 Loading a Lisp application from source, or even from compiled files,
 can take almost a second, or even a few seconds, depending on
@@ -99,15 +94,17 @@ but can be unacceptable when delivering an application
 to be accessed at the shell command-line.
 A Lisp application delivered as a standalone executable using @(ASDF3)
 can start in ten or twenty milliseconds which makes it acceptable
-for interactive use at the shell command-line. With tens or hundreds of
-megabytes on disk and in memory, the size overhead is considerable, however;
-enough to matter in embedded environments or for intentionally small
-command line utilities and scripts.
+for interactive use at the shell command-line.
+With tens or hundreds of megabytes on disk and in memory,
+the size overhead is considerable, however;
+enough to matter in embedded environments
+or for intentionally small command line utilities and scripts.
 This issue is addressed by the ability of Zach Beane's @tt{buildapp}
-to deliver "multicall binaries" à la Busybox -- a feature that is only
+to deliver "multicall binaries" à la Busybox --- a feature that is only
 provides on SBCL (since 2010) and (more recently) CCL, though.
-In 2015, the ability to deliver multicall binaries was also added to @tt{cl-launch},
-the portable interface between the Unix shell and @(CL) software @~cite[CL-Scripting-2015] --
+In 2015, a similar ability was also added to @tt{cl-launch},
+the portable interface between the Unix shell and @(CL) software
+@~cite[CL-Scripting-2015] ---
 this time without restrictions on the @(CL) implementation.
 Libraries now also exist to help write Lisp utilities that are callable and
 usable at the shell command-line as well as at the @(CL) command-line.
@@ -130,12 +127,12 @@ and by @(ASDF3.1) it has become a full-fledged portable interface
 to synchronously executing subprocesses;
 it handles redirection and transformation of input, output and error-output,
 error status, etc.
-Now in 2016, the second author refactored and extended the underlying
-logic such that also spawning of and basic interaction with
-asynchronous processes could be exposed to the user in @(ASDF3.2),
-at least on those implementations and platforms that support them. Newly
-added functions in this context include @(launch-program), @(wait-process),
-and @(terminate-process).
+Now in 2016, @(EP) refactored and extended the underlying logic
+so that @(ASDF3.2) now exposes to the user
+the spawning of and basic interaction with asynchronous processes,
+at least on those implementations and platforms that support them.
+Newly added functions in this context include
+@(launch-program), @(wait-process), and @(terminate-process).
 
 With @(run-program) and now @(launch-program),
 @(CL) can be used to portably write all kind of programs for which
@@ -175,11 +172,12 @@ the target program, in two separate phases of planning and execution.
 And of course, there could be more than just two phases, and there could also
 be libraries that would be used in several phases.
 
-In practice, this simple approach was effective in building a program from scratch,
-albeit not necessarily most efficient since libraries could sometimes unnecessarily be compiled or loaded more than once.
-In the case of an incremental build, however, @(ASDF) would sometimes overlook that
-a change in one phase could affect the build in a later phase, and fail to
-invalidate and recompile its actions.
+In practice, this simple approach was effective
+in building software from scratch, though not necessarily most efficient since
+libraries could sometimes unnecessarily be compiled or loaded more than once.
+However, in the case of an incremental build, @(ASDF) would overlook that
+a change in one phase could affect the build in a later phase,
+and fail to invalidate and re-perform actions accordingly.
 It was then up to the user to diagnose the failure and
 force a rebuild from scratch.
 
@@ -190,17 +188,17 @@ whereby an action can independently be
 (1) kept from a previous session or invalid at the start of the session,
 (2) done or not done for the session,
 and (3) needed or not needed during the session.
-While merely checking whether an action is still valid from previous sessions,
-special care is taken not to affect build side-effect of potentially
+When merely checking whether an action is still valid from previous sessions,
+special care is taken not to perform build side-effect that are potentially
 either out-of-date or not needed for the session;
 there are therefore several variants of traversals for the action graph.
 
 Note that the problem of dependency tracking in the presence
 of build extensions is a one that people have in every build system
-in every language. Most build systems do not deal well with phase separation,
-and most that do are, like @(ASDF), language-specific build systems
-that only deal with macros inside the language, not
-building arbitrary code outside the language.
+in every language. Most build systems do not deal well with phase separation;
+and most that do are language-specific build systems (like @(ASDF)),
+but only deal with staging macros inside the language, not
+with building arbitrary code outside the language.
 A notable exception is Bazel, which has an extension language
 that allows it to build arbitrary languages
 (including Lisp @~cite[Bazelisp-2016]) and properly handle
@@ -258,14 +256,15 @@ whereas things just work without such trouble for normal users.
 We have demonstrated how @(ASDF) can be used to
 portably and robustly deliver software written in @(CL),
 as an alternative to both "scripting" and "programming" languages.
-Some of the lessons learned could be applied to other programming languages beside @(CL).
+Some of the lessons learned could be applied to
+other programming languages beside @(CL).
 
 In the future, there are many features we might want to add,
 in dimensions where @(ASDF) lags behind other build systems
 such as Bazel @~cite[Bazelisp-2016]:
 support for cross-compilation to other platforms,
 reproducible distributed builds,
-building software written in other languages than @(CL),
+building software written in languages other than @(CL),
 integration with non-Lisp build systems, etc.
 
 @; Our code is at:

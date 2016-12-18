@@ -71,6 +71,7 @@
 (define (ASDF3.3) (ASDF 3.3))
 (define (cl-launch (version #f)) (software-version "cl-launch" version))
 (define (FRR) "François-René Rideau")
+(define (EP) "Elias Pipping")
 
 (define-syntax defpretty
   (lambda (stx)
