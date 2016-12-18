@@ -58,13 +58,9 @@ and now @(ASDF3.3) in 2017.
 It is provided as a loadable extension by all active implementations,
 and is notably used by Quicklisp @~cite[quicklisp],
 a growing collection of now over 1400 @(CL) libraries.
-We will present notable improvements on three fronts
+We will present notable improvements
 since we last published on @(ASDF) @~cite[Lisp-Acceptable-Scripting-Language],
-beside general robustness and portability fixes and addressing bitrot:
-application delivery mechanisms,
-subprocess execution,
-correctness of the build model,
-easier configuration.
+beside general robustness and portability fixes and addressing bitrot.
 
 @section{Application Delivery}
 
@@ -126,13 +122,9 @@ it couldn't capture the output (and actually polluted it);
 it didn't handle quoting well and instead was encouraging brittle code;
 it didn't work on Windows.
 
-@(ASDF3) included a portability library @(UIOP),
-providing robust utilities that abstract away the differences between
-implementations and between operating systems;
-it notably makes it possible to use pathnames and access the filesystem
-in a portable way.
-This library provided a new function @(run-program)
-that fixed all the above issues with @(run-shell-command);
+@(ASDF3) offered a new function @(run-program)
+as part of its portability library @(UIOP).
+The new function fixed all the above issues with @(run-shell-command),
 and by @(ASDF3.1) it has become a full-fledged portable interface
 to synchronously executing subprocesses;
 it handles redirection and transformation of input, output and error-output,
@@ -150,13 +142,20 @@ instead of the very poor control structures of shell scripting
 and other scripting languages
 @~cite[Lisp-Acceptable-Scripting-Language] @~cite[CL-Scripting-2015].
 
-@(UIOP) fully replace many previous less portable or less robust libraries;
-however, it is constrained by the requirement that it is pure Lisp code
-using interfaces provided by the implementations out of the box.
-For full coverage of the capabilities offered by operating systems,
-one may thus have to use a library such as @tt{osicat} or @tt{IOLib},
-that will invoke a C compiler or link C libraries via the @tt{CFFI} library,
-as needed to build or access low-level extensions to the Lisp system.
+@(UIOP) abstracts away the differences between
+implementations and between operating systems
+while providing a lot of basic functionality,
+notably in accessing the filesystem, etc.
+It fully replaces many previous less portable or less robust libraries.
+However, it is constrained by the requirement that it is pure Lisp code
+using interfaces provided by the implementations out of the box;
+it notably doesn't require the availability of a C compiler.
+Therefore, for full coverage of the capabilities offered by operating systems,
+it is better to use a library such as @tt{osicat} or @tt{IOLib},
+that will provide full access to the underlying operating system interfaces
+by invoking a C compiler or by linking C libraries via the @tt{CFFI} library.
+The previously discussed improvements in application delivery
+make that option acceptable in many cases that it once wasn't.
 
 
 @section{Build Model Correctness}
