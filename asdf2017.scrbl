@@ -134,13 +134,16 @@ it notably makes it possible to use pathnames and access the filesystem
 in a portable way.
 This library provided a new function @(run-program)
 that fixed all the above issues with @(run-shell-command);
-and by @(ASDF3.1) it has become a full-fledged portable interface
+and with @(ASDF3.1) it has become a full-fledged portable interface
 to synchronously executing subprocesses;
 it handles redirection and transformation of input, output and error-output,
 error status, etc.
-Now in 2016, the second author carved a function @(launch-program) into @(ASDF) 3.2,
-which offers a portable interface to asynchronous execution of subprocesses
-on the implementations that allow it at all.
+Now in 2016, the second author refactored and extended the underlying
+logic such that also spawning of and basic interaction with
+asynchronous processes could be exposed to the user in @(ASDF) 3.2,
+at least on those implementations and platforms that support them. Newly
+added functions in this context include @(launch-program), @(wait-process),
+and @(terminate-process).
 
 With @(run-program) and now @(launch-program),
 @(CL) can be used to portably write all kind of programs for which
