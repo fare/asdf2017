@@ -67,6 +67,7 @@
 (define (ASDF2) (ASDF 2))
 (define (ASDF3) (ASDF 3))
 (define (ASDF3.1) (ASDF 3.1))
+(define (ASDF3.2) (ASDF 3.2))
 (define (ASDF3.3) (ASDF 3.3))
 (define (cl-launch (version #f)) (software-version "cl-launch" version))
 (define (FRR) "François-René Rideau")
@@ -81,7 +82,7 @@
 
 (defpretty cl
   UIOP defsystem mk-defsystem
-  run-shell-command run-program launch-program
+  run-shell-command run-program launch-program wait-process terminate-process
 
   inferior-shell run run/nil run/string run/ss
 

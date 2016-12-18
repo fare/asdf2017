@@ -9,7 +9,7 @@
           "utils.rkt" "bibliography.scrbl")
 
 @authorinfo["Robert P. Goldman" "SIFT" "rpgoldman@sift.info"]
-@authorinfo["Elias Pipping" "FU Berlin" "pipping.elias@icloud.com"]
+@authorinfo["Elias Pipping" "FU Berlin" "elias.pipping@fu-berlin.de"]
 @authorinfo["François-René Rideau" "TUNES" "fare@tunes.org"]
 
 @conferenceinfo["ELS 2017" "April 3--4, Brussel, Belgium."]
@@ -67,17 +67,17 @@ beside general robustness and portability fixes and addressing bitrot.
 Michael Goffioul in 2005 implemented "bundle operations" as
 an extension to @(ASDF) on ECL to create static and dynamic
 libraries and executables from Lisp systems.
-In 2012, @(FRR) ported it to other Lisp implementations
-then made part of @(ASDF3).
+In 2012, @(FRR) ported it to other Lisp implementations,
+then made it part of @(ASDF3).
 This functionality has since received a lot of attention
 to make it stable and robust across Lisp implementations and Operating Systems.
 Therefore, it is now possible on all implementations to create
 a single-file deliverable for your library or your application,
 either as a combined FASL file (compiler output)
 to load into an existing Lisp implementation,
-or as an executable image that either
-can serve as the basis for further development
-or can be a standalone application.
+or as an executable image that can serve either
+as the basis for further development
+or as a standalone application.
 Where portability is paramount, you can even deliver all your code
 as a single concatenated source file.
 
@@ -88,7 +88,7 @@ contains arbitrary C code and libraries statically-linked into an executable;
 it currently only works on three software implementations: CLISP, CMUCL and SBCL.
 Previously this was only practically possible to do with ECL and MKCL,
 using the standard @(ASDF3) bundle operations.
-Unhappily, the popular implementation SBCL currently requires a simple patch
+Unfortunately, the popular implementation SBCL currently requires a simple patch
 to support statically-linked libraries.
 
 Loading a Lisp application from source, or even from compiled files,
@@ -99,15 +99,16 @@ but can be unacceptable when delivering an application
 to be accessed at the shell command-line.
 A Lisp application delivered as a standalone executable using @(ASDF3)
 can start in ten or twenty milliseconds which makes it acceptable
-for interactive use at the shell command-line; but it has a size overhead of
-tens or hundreds of megabytes on disk and in memory,
-which is totally acceptable for most applications, but not for delivering
-lots of small scripts and utilities.
-To bridge this gap, Zach Beane's @tt{buildapp} has been able to deliver
-"multicall binaries" à la Busybox since 2010 on SBCL (and now CCL);
-since 2015, @tt{cl-launch},
-the portable interface between the Unix shell and @(CL) software
-can now do the same on all implementations @~cite[CL-Scripting-2015].
+for interactive use at the shell command-line. With tens or hundreds of
+megabytes on disk and in memory, the size overhead is considerable, however;
+enough to matter in embedded environments or for intentionally small
+command line utilities and scripts.
+This issue is addressed by the ability of Zach Beane's @tt{buildapp}
+to deliver "multicall binaries" à la Busybox -- a feature that is only
+provides on SBCL (since 2010) and (more recently) CCL, though.
+In 2015, the ability to deliver multicall binaries was also added to @tt{cl-launch},
+the portable interface between the Unix shell and @(CL) software @~cite[CL-Scripting-2015] --
+this time without restrictions on the @(CL) implementation.
 Libraries now also exist to help write Lisp utilities that are callable and
 usable at the shell command-line as well as at the @(CL) command-line.
 
@@ -118,9 +119,9 @@ usable at the shell command-line as well as at the @(CL) command-line.
 from @(mk-defsystem) @~cite[MK-DEFSYSTEM], that
 allowed to synchronously execute commands in a subprocess.
 However the function was not very portable;
-it couldn't capture the output (and actually polluted it);
-it didn't handle quoting well and instead was encouraging brittle code;
-it didn't work on Windows.
+it could not capture the output (and actually polluted it);
+it did not handle quoting well and instead was encouraging brittle code;
+it did not work on Windows.
 
 @(ASDF3) offered a new function @(run-program)
 as part of its portability library @(UIOP).
@@ -129,9 +130,12 @@ and by @(ASDF3.1) it has become a full-fledged portable interface
 to synchronously executing subprocesses;
 it handles redirection and transformation of input, output and error-output,
 error status, etc.
-Now in 2016, Elias Pipping carved a function @(launch-program) into @(ASDF) 3.2,
-which offers a portable interface to asynchronous execution of subprocesses
-on the implementations that allow it at all.
+Now in 2016, the second author refactored and extended the underlying
+logic such that also spawning of and basic interaction with
+asynchronous processes could be exposed to the user in @(ASDF3.2),
+at least on those implementations and platforms that support them. Newly
+added functions in this context include @(launch-program), @(wait-process),
+and @(terminate-process).
 
 With @(run-program) and now @(launch-program),
 @(CL) can be used to portably write all kind of programs for which
@@ -164,59 +168,57 @@ The original @(ASDF1) introduced a simple and elegant "plan then execute" model
 for building software. It also introduced a simple and elegant extensible
 object model for extending the build model to support more than just
 compiling simple Lisp files (such as CFFI to compile C extensions).
-However, these two features were at odds: because to load a program
-that uses an extension, you would first use @(ASDF) to plan and execute
-the loading of the extension, then you could plan and load the loading
-of the target program, in two separate phases of planning and execution.
+However, these two features were at odds with one another: to load a program
+that uses an extension, one would first use @(ASDF) to plan and execute
+loading the extension, then one could plan and execute loading
+the target program, in two separate phases of planning and execution.
 And of course, there could be more than just two phases, and there could also
-be libraries used in several phases.
+be libraries that would be used in several phases.
 
-In practice, things worked well enough when building a program from scratch,
-except for some libraries sometimes being compiled or loaded multiple times.
-But if you tried an incremental build, @(ASDF) could sometimes overlook how
-a change in one phase could affect the build in a latter phase, and fail to
-invalidate and recompile actions of the latter phase.
-Users had to notice that the build was wrong and
-to manually force a rebuild from scratch.
+In practice, this simple approach was effective in building a program from scratch,
+albeit not necessarily most efficient since libraries could sometimes unnecessarily be compiled or loaded more than once.
+In the case of an incremental build, however, @(ASDF) would sometimes overlook that
+a change in one phase could affect the build in a later phase, and fail to
+invalidate and recompile its actions.
+It was then up to the user to diagnose the failure and
+force a rebuild from scratch.
 
 @(ASDF3.3) fixes this issue by properly supporting the notion of
 a session within which code is built and loaded in several phases;
-it will maintain a status for traversed actions across phases of a session,
+it tracks the status of traversed actions across phases of a session,
 whereby an action can independently be
 (1) kept from a previous session or invalid at the start of the session,
 (2) done or not done for the session,
 and (3) needed or not needed during the session.
 While merely checking whether an action is still valid from previous sessions,
-special care is taken not to effect build side-effect of potentially
+special care is taken not to affect build side-effect of potentially
 either out-of-date or not needed for the session;
 there are therefore several variants of traversals for the action graph.
 
-Note that the problem of correctly tracking dependencies in presence
-of build extensions is a problem that people have in every build system
+Note that the problem of dependency tracking in the presence
+of build extensions is a one that people have in every build system
 in every language. Most build systems do not deal well with phase separation,
 and most that do are, like @(ASDF), language-specific build systems
-that only deal with macros inside the language but not with
-allowing building arbitrary code outside the language.
-A notable exception is Bazel, that has an extension language
-that allows it to build for arbitrary languages
-(including Lisp @~cite[Bazelisp-2016]), and properly handles
+that only deal with macros inside the language, not
+building arbitrary code outside the language.
+A notable exception is Bazel, which has an extension language
+that allows it to build arbitrary languages
+(including Lisp @~cite[Bazelisp-2016]) and properly handle
 dependencies on build system extensions.
 @; Citation needed?
 
-@(ASDF3.3) also includes some backward-incompatible changes to internals,
+@(ASDF3.3) also includes some backward-incompatible changes to internals
 that were necessary to clean up the build model.
 Authors of free software libraries available on Quicklisp were contacted
-if they were abusing those internals;
+if they were abusing those internals
 and those who still maintain them fixed them.
-But if anyone has proprietary software that directly accesses @(ASDF) internals
-they will have to feel the pain and fix any breakage by themselves.
 
 
 @section{Source Location Configuration}
 
 In 2010, @(ASDF2) introduced a basic Principle for all configuration:
 @emph{allow each one to contribute what he knows when he knows it,
-and do not require anyone to contribute what he doesn't know}
+and do not require anyone to contribute what he does not know}
 @~cite[Evolving-ASDF].
 In particular, everything should "just work" by default for end-users,
 without any need for configuration:
