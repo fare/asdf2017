@@ -101,7 +101,7 @@ the size overhead is considerable, however;
 enough to matter in embedded environments
 or for intentionally small command line utilities and scripts.
 This issue is addressed by the ability of Zach Beane's @tt{buildapp}
-to deliver "multicall binaries" à la Busybox --- a feature that is only
+to deliver "multicall binaries" à la Busybox --- a feature that it only
 provides on SBCL (since 2010) and (more recently) CCL, though.
 In 2015, a similar ability was also added to @tt{cl-launch},
 the portable interface between the Unix shell and @(CL) software
