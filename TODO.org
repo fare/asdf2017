@@ -1,0 +1,111 @@
+* Work on the feedback from Robert Strandh:
+General
+
+  Use the 2012 ACM CCS system, describe here:
+  https://shinmera.github.io/els-web/2017/index.html#submissions
+
+  Use the ACM bibliography/reference style.  It comes automatically
+  with the ACM style file.
+
+  I personally do not put items in the bibliography that are
+  ephemeral.  If you absolutely want to put URLs in the bibliography,
+  the recommendation from ACM is to also state the date when it was
+  read.  The purpose of bibliography links is so that the reader can
+  read the same documents you did.  If you put links to documents that
+  may change between the time you read it and the reader of your
+  article does, it defeats the entire purpose of the bibliography.  I
+  myself indicate URLs as footnotes rather than bibliography items.
+
+  You seem to like to write very long sentences.  It is better for an
+  English-speaking audience to use shorter sentences.  While using
+  semicolon is a bit better than commas and whatnot, a full stop is
+  often the best.
+
+Abstract
+
+  You give a summary of what the article contains.  You are just
+  saying that ASDF has improved.
+
+Introduction
+
+  Gabriel is not the good reference for Common Lisp.  The standard is.
+
+  "robust portable tool" -> "robust and portable tool" or possibly
+  "robust, portable tool"
+
+  You mention improvements on three fronts and then list four of
+  them.
+
+Application delivery
+
+  "MG in 2005 implemented" -> "In 2005, MG implemented"
+
+  "then made part of" -> "then made it part of"
+
+  "Operating Systems" -> "operating systems" (no reason to capitalize)
+
+  "unacceptable when delivering an application"  some people will
+  complain that this sentence has a "dangling participle", namely
+  "delivering".  To avoid such complaints, either don't use a
+  participle, or supply an "agent" in charge of the delivery, such as
+  "the programmer".
+
+  Provide a reference for "Busybox".
+
+Subprocess management
+
+  In English, you can not write "allow to" or "permit to"; there has
+  to be an "agent" between the two words.  If you don't want to have
+  an agent, you can follow it with a noun instead, as in "allow the
+  synchronous execution".
+
+  I don't know that one can "carve" functionality into something.
+
+Build model correctness
+
+  There is another dangling participle: "things worked well enough
+  when building".  Sensitive readers will wonder how it is possible
+  for "things" to "build".
+
+  "kept from a previous session or invalid at the start"  there is a
+  class between "kept" and "invalid".  They ought to be the same part
+  of speech.  Perhaps "kept" and "considered invalid".
+
+  "While merely checking... special care is taken" is another dangling
+  participle.  You are suggesting that it is the "special care" that
+  is doing the "checking".
+
+  "not to effect build side-effect"???  I don't understand the
+  sentence.  Do you mean something like "Affect build side-effectS"?
+  I also don't understand the syntactic structure of the remainder of
+  the sentence.
+
+  Provide a reference for "Bazel".  The Walzac reference is only for
+  using Bazel with Lisp.
+
+  "allows it to build..., and properly handles" is a mismatch in verb
+  forms.  Maybe "allows it to build..., and to properly handle" or
+  "allows it to build....  It also handles..."  This is what happens
+  when you make your sentences too long.
+
+  "those who still maintain them fixed them"  Hard to know which
+  "them" belongs to which previously mentioned thing."
+
+  "internals they will have to" -> "internals, they will have to".
+  Without the comma, the reader expects a restriction on "internals".
+
+Source location and configuration
+
+  "Principle" -> "principle"  (no reason to capitalize)
+
+  Provide a reference for the XDG environment variable.
+
+  "can have ASDF have" is an awkward construct.
+
+  You sometimes hyphenate "power-user" an sometimes write "power
+  user".  Decide which one you want and stick to it.  I prefer the
+  latter version.
+
+  ISO dates are written with hyphens as in 2016-12-18, not with
+  slashes.  I am unaware of any convention that uses the order year,
+  month, day and that also uses slashes.
