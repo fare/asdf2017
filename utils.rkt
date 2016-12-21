@@ -2,17 +2,24 @@
 ;;-*- Scheme -*-
 
 (require
-  scribble/manual
+  scribble/base
+  scribble/bnf
   scribble/core
   scribble/decode
-  scribble/base
+  scribble/manual
   scriblib/autobib
-  scribble/bnf
+  scriblib/footnote
   (for-syntax syntax/parse))
 
 (provide (all-defined-out))
 
+(define (note-url url)
+  (note (hyperlink url url)))
+
+
 (define extended-url "http://fare.tunes.org/files/asdf3/asdf3-2014.html")
+
+(define (sf . str) (make-element 'sf (decode-content str)))
 
 (define variant (make-parameter '#:extended))
 (define (extended?) (eq? (variant) '#:extended))
