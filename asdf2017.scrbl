@@ -21,15 +21,14 @@
 @(ASDF), the @(de_facto) standard build system for @(CL),
 has markedly improved over the years,
 in features as well as robustness and portability.
-Since we last reported on it in 2014, it notably provides:
+We present a few notable improvements since we last reported on it in 2014:
 enhanced mechanisms for single-file delivery of applications;
 a reasonably portable @tt{launch-program} layer for asynchronous subprocesses;
 a correct incremental build in presence of @(ASDF) extensions,
 now with proper phase separation;
 enhancements with configuration for source location.
 These improvements make @(CL) a better platform for
-writing and delivering applications as well as "scripts";
-other platforms could similarly be improved to improve the experience of their users.
+writing and delivering applications as well as "scripts".
 }
 
 @category["D.2.3" "Software Engineering"]{Coding Tools and Techniques}
@@ -276,8 +275,10 @@ whereas things just work without any such trouble for normal users.
 We have demonstrated how @(ASDF) can be used to
 portably and robustly deliver software written in @(CL),
 as an alternative to both "scripting" and "programming" languages.
-Some of the lessons learned could be applied to
-other programming languages beside @(CL).
+While our implementation is specific to @(CL),
+many of the same ideas could be applied to
+other programming languages, to extend their ability to deliver
+both applications and "scripts".
 
 In the future, there are many features we might want to add,
 in dimensions where @(ASDF) lags behind other build systems such as Bazel:
