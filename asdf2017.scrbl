@@ -82,9 +82,9 @@ C foreign function interface layer
 further extends @(ASDF3.1) with
 the ability to portably deliver applications as a single-file that
 contains arbitrary C code and libraries statically-linked into an executable;
-it currently only works on three software implementations:
-CLISP, CMUCL and SBCL.
-Previously this was only practically possible to do with ECL and MKCL,
+it currently only works on four software implementations:
+ECL, MKCL, CLISP and SBCL.
+Previously this was only practically possible on the former two,
 using the standard @(ASDF3) bundle operations.
 Unfortunately, the popular implementation SBCL
 currently requires a simple patch.
@@ -96,18 +96,20 @@ This delay is fine at the start of an interactive development session, but
 is unacceptable for many applications accessed at the shell command-line.
 For these applications, @(ASDF3) can deliver a standalone executable
 that will acceptably start in ten or twenty milliseconds.
-However, such executables may take tens to hundreds of megabytes on disk and in memory;
-this size overhead is not much by modern standards when a single application runs,
-but the size overhead can be prohibitive when deploying a large number
+However, such executables may take tens to hundreds of megabytes
+on disk and in memory.
+This size overhead is not much by modern standards
+when a single application runs on a computer;
+but it can be prohibitive when deploying a large number
 of small scripts and utilities.
 This issue can be addressed by delivering a "multicall binary"
 à la @hyperlink["https://busybox.net/"]{Busybox};
 Zach Beane's @hyperlink["http://www.xach.com/lisp/buildapp/"]{@tt{buildapp}}
-provided this capability since 2010 on SBCL,
-and more recently CCL;
-since 2015, the same capability is available on all implementations,
-as it was added to @hyperlink["http://www.cliki.net/cl-launch"]{@tt{cl-launch}},
-a portable interface between the Unix shell and @(CL) software.
+provided this capability since 2010,
+but only worked on SBCL, and more recently CCL;
+since 2015, @hyperlink["http://www.cliki.net/cl-launch"]{@tt{cl-launch}},
+a portable interface between the Unix shell and all @(CL) implementations,
+also adopted the same capability.
 @; Moreover, libraries now exist to help write Lisp utilities that are callable and
 @; usable at the shell command-line as well as at the @(CL) command-line.
 
