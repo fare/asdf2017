@@ -210,10 +210,14 @@ Most build systems do not deal well with phase separation;
 most that do are language-specific build systems (like @(ASDF)),
 but only deal with staging macros or extensions inside the language,
 not with building arbitrary code outside the language.
-A notable exception is @hyperlink["https://bazel.io/"]{Bazel},
-which has an extension language that allows it to build arbitrary languages
-(including Lisp @~cite[Bazelisp-2016]), yet still properly handles
-dependencies on build system extensions.
+An interesting case is @hyperlink["https://bazel.build/"]{Bazel},
+which does maintain a strict plan-then-build model
+yet allows user-provided extensions
+(e.g. to support Lisp  @~cite[Bazelisp-2016]).
+Its extensions, written in a safe restricted DSL,
+@; running into plan phase only; (with two subphases, load and analysis)
+are not themselves subject to extension using the build system.
+@; (yet the DSL being a universal language, you could do it the hard way).
 
 To fix the build model in @(ASDF3.3),
 some internals were changed in backward-incompatible ways.

@@ -125,7 +125,7 @@
 (define-bib Bazel
   #:title "Bazel"
   #:author "Google"
-  ;; #:url "http://bazel.io/"
+  ;; #:url "http://bazel.build/"
   #:date "2015")
 
 (define-bib Bazelisp-2016
