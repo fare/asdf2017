@@ -69,7 +69,8 @@ beside addressing portability, bugs and bitrot.
 In 2005, Michael Goffioul implemented "bundle operations",
 an extension to @(ASDF) on ECL to create static and dynamic
 libraries and executables from Lisp systems.
-In 2012, @(FRR) included it in @(ASDF3), and eventually made it
+In 2012, @(FRR) ported it to other platforms, and
+eventually made it a part of @(ASDF3),
 stable and robust across all active Lisp implementations and operating systems.
 It is now possible to portably deliver software as a single-file:
 as a combined source or compiled file to load into an existing Lisp image,
@@ -82,12 +83,10 @@ C foreign function interface layer
 further extends @(ASDF3.1) with
 the ability to portably deliver applications as a single-file that
 contains arbitrary C code and libraries statically-linked into an executable;
-it currently only works on four software implementations:
-ECL, MKCL, CLISP and SBCL.
-Previously this was only practically possible on the former two,
-using the standard @(ASDF3) bundle operations.
-Unfortunately, the popular implementation SBCL
-currently requires a simple patch.
+as of 2017, it works on three implementations:
+CLISP, ECL and SBCL.
+@; Unfortunately, the popular implementation SBCL
+@; currently requires a simple patch. XXX
 
 Loading a Lisp application from source, or even from compiled files,
 can take almost a second, or even a few seconds, depending on
