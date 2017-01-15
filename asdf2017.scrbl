@@ -1,9 +1,10 @@
-#lang scribble/sigplan @nocopyright @preprint
+#lang at-exp scribble/acmart @[#:format 'sigplan #:authorversion #t]
 @;-*- Scheme -*-
 
 @(require scribble/base
           scriblib/autobib scriblib/footnote
-          scribble/decode scribble/core scribble/manual-struct scribble/decode-struct
+          scribble/decode scribble/core
+          scribble/manual-struct scribble/decode-struct
           scribble/html-properties scribble/tag
           (only-in scribble/core style)
           "utils.rkt" "bibliography.scrbl")
@@ -11,14 +12,29 @@
 @authorinfo["Robert P. Goldman" "SIFT" "rpgoldman@sift.info"]
 @authorinfo["Elias Pipping" "FU Berlin" "elias.pipping@fu-berlin.de"]
 @authorinfo["François-René Rideau" "TUNES" "fare@tunes.org"]
+@conferenceinfo[#:short-name "ELS 2017"
+  "The 10th European Lisp Symposium" "April 3--4, 2017" "Brussel, Belgium"]
+@copyright-year{2017}
+@set-copyright{none}
+@set-top-matter[#:printccs #f #:printacmref #f #:printfolios #f]
+@acm-doi{}
 
-@conferenceinfo["ELS 2017" "April 3--4, Brussel, Belgium."]
-@copyrightyear{2017}
 
-@title{Demonstration: Building Portable Common Lisp Applications with @(ASDF3.3)}
+@XXX{
+@category["D.2.3 " "Software Engineering "]{ Coding Tools and Techniques}
+}
+@keywords{
+  ASDF,
+  Build System,
+  Common Lisp,
+  Portability,
+  Application Delivery
+}
+
+@title{Building Portable Common Lisp Applications with @(ASDF3.3)}
 
 @abstract{
-@(ASDF), the @(de_facto) standard build system for @(CL),
+@(ASDF), the @(de_facto) standard build system for @(CommonLisp) (CL),
 has markedly improved over the years,
 in features as well as robustness and portability.
 We present a few notable improvements since we last reported on it in 2014:
@@ -28,27 +44,17 @@ a correct incremental build in presence of @(ASDF) extensions,
 now with proper phase separation;
 enhancements with configuration for source location.
 These improvements make @(CL) a better platform for
-writing and delivering applications as well as "scripts".
-}
-
-@category["D.2.3" "Software Engineering"]{Coding Tools and Techniques}
-
-@keywords{
-ASDF,
-Build System,
-Common Lisp,
-Portability,
-Application Delivery
+writing and delivering applications as well as ``scripts''.
 }
 
 @section{Introduction}
 
-@hyperlink["https://common-lisp.net/"]{Common Lisp}, @; XXX @~cite[CLHS]
-a general-purpose programming language with a
-@hyperlink["https://www.dreamsongs.com/Files/Incommensurability.pdf"]{systems paradigm},
+The general-purpose programming language
+@hyperlink["https://common-lisp.net/"]{Common Lisp} (CL) @; XXX @~cite[CLHS]
+@; with a @hyperlink["https://www.dreamsongs.com/Files/Incommensurability.pdf"]{systems paradigm},
 @; XXX @~cite[Incommensurability],
-has more than ten actively used implementations
-on Linux, Windows, macOS, and more.
+has over ten actively used implementations
+on Linux, Windows, macOS, etc.
 @hyperlink["https://common-lisp.net/project/asdf/"]{@(ASDF)},
 the @(de_facto) standard build system for @(CL),
 has matured from a wildly successful experiment
@@ -66,7 +72,7 @@ beside addressing portability, bugs and bitrot.
 
 @section{Application Delivery}
 
-In 2005, Michael Goffioul implemented "bundle operations",
+In 2005, Michael Goffioul implemented ``bundle operations'',
 an extension to @(ASDF) on ECL to create static and dynamic
 libraries and executables from Lisp systems.
 In 2012, @(FRR) ported it to other platforms, and
@@ -77,35 +83,31 @@ as a combined source or compiled file to load into an existing Lisp image,
 as an image to serve as the basis for further development,
 or as a standalone application.
 
-Since 2015, cffi-toolchain, distributed as part of the de facto standard
-C foreign function interface layer
-@hyperlink["https://common-lisp.net/project/cffi/"]{CFFI},
-further extends @(ASDF3.1) with
-the ability to portably deliver applications as a single-file that
-contains arbitrary C code and libraries statically-linked into an executable;
-as of 2017, it works on three implementations:
+Since 2015, cffi-toolchain, a part of the @(de_facto) standard
+foreign function interface @hyperlink["https://common-lisp.net/project/cffi/"]{CFFI},
+extends @(ASDF3.1) to portably deliver applications as a single executable file
+with arbitrary C code and libraries statically linked.
+As of 2017, it works on three implementations:
 CLISP, ECL and SBCL.
 @; Unfortunately, the popular implementation SBCL
 @; currently requires a simple patch. XXX
 
-Loading a Lisp application from source, or even from compiled files,
-can take almost a second, or even a few seconds, depending on
-the size of the application.
-This delay is fine at the start of an interactive development session, but
-is unacceptable for many applications accessed at the shell command-line.
-For these applications, @(ASDF3) can deliver a standalone executable
-that will acceptably start in ten or twenty milliseconds.
-However, such executables may take tens to hundreds of megabytes
+Loading a Lisp application, from source or from compiled files,
+can take up to multiple seconds, depending on application size.
+This delay is fine at the start of a development session, but
+can be unacceptable for interactive use at the shell command-line.
+In those cases, @(ASDF3) can deliver a standalone executable
+that can start in twenty milliseconds.
+However such executables occupy tens or hundreds of megabytes
 on disk and in memory.
-This size overhead is not much by modern standards
+This size overhead is not much by current standards
 when a single application runs on a computer;
 but it can be prohibitive when deploying a large number
 of small scripts and utilities.
-This issue can be addressed by delivering a "multicall binary"
+A solution is to deliver a "multicall binary"
 à la @hyperlink["https://busybox.net/"]{Busybox};
 Zach Beane's @hyperlink["http://www.xach.com/lisp/buildapp/"]{@tt{buildapp}}
-provided this capability since 2010,
-but only worked on SBCL, and more recently CCL;
+could do it since 2010, but only worked on SBCL, and more recently CCL;
 since 2015, @hyperlink["http://www.cliki.net/cl-launch"]{@tt{cl-launch}},
 a portable interface between the Unix shell and all @(CL) implementations,
 also adopted the same capability.
@@ -167,7 +169,8 @@ make that option acceptable in many cases that it once wasn't.
 
 @section{Build Model Correctness}
 
-The original @(ASDF1) introduced a simple and elegant "plan then execute" model
+The original @(ASDF1) introduced
+a simple and elegant ``plan then execute'' model
 for building software. It also introduced a simple and elegant extensible
 object model for extending the build model to support more than just
 compiling simple Lisp files (such as CFFI to compile C extensions).
@@ -231,7 +234,7 @@ In 2010, @(ASDF2) introduced a basic principle for all configuration:
 @emph{allow each one to contribute what he knows when he knows it,
 and do not require anyone to contribute what he does not know}
 @~cite[Evolving-ASDF].
-In particular, everything should "just work" by default for end-users,
+In particular, everything should ``just work'' by default for end-users,
 without any need for configuration:
 configuration is possible, but is only for power users
 and system administrators to specify how their setup differs.
@@ -259,7 +262,6 @@ just to recursively scan filesystem trees in the source-registry
 for @tt{.asd} files ---
 a consequence of how the decentralized @(ASDF) system namespace is
 overly decoupled from any filesystem hierarchy.
-
 Since 2014, @(ASDF) provides a script @tt{tools/cl-source-registry-cache.lisp}
 that will scan a tree in advance
 and create a file @tt{.cl-source-registry.cache} with the results,
@@ -270,7 +272,7 @@ the price they pay is having to re-run this script (or manually edit the file)
 whenever they install new software or remove old software.
 This is remindful of the bad old days before @(ASDF2),
 when power users each had to write their own script to do something equivalent
-to manage "link farms", directories full of symlinks to @tt{.asd} files.
+to manage ``link farms'', directories full of symlinks to @tt{.asd} files.
 But at least, there is now a standardized script for power users to do that,
 whereas things just work without any such trouble for normal users.
 
@@ -279,11 +281,11 @@ whereas things just work without any such trouble for normal users.
 
 We have demonstrated how @(ASDF) can be used to
 portably and robustly deliver software written in @(CL),
-as an alternative to both "scripting" and "programming" languages.
+as an alternative to both ``scripting'' and ``programming'' languages.
 While our implementation is specific to @(CL),
 many of the same ideas could be applied to
 other programming languages, to extend their ability to deliver
-both applications and "scripts".
+both applications and ``scripts''.
 
 In the future, there are many features we might want to add,
 in dimensions where @(ASDF) lags behind other build systems such as Bazel:

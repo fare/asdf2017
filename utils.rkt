@@ -9,6 +9,7 @@
   scribble/manual
   scriblib/autobib
   scriblib/footnote
+  (only-in scribble/acmart acmart-style)
   (for-syntax syntax/parse))
 
 (provide (all-defined-out))
@@ -58,10 +59,11 @@
 (define (cl . str)
   (apply tt str))
 
-(define (CL) "Common Lisp")
+(define (CommonLisp) "Common Lisp")
+(define (CL) "CL")
 (define (CLOS) "Common Lisp Object System")
 
-(define (XXX . rest) '())
+(define-syntax-rule (XXX . rest) '())
 (define (latin x) (emph x))
 (define (ad_hoc) @latin{ad hoc})
 (define (de_facto) @latin{de facto})
@@ -128,7 +130,7 @@
 (define (Quicklisp) "Quicklisp")
 (define (asd) @tt{.asd})
 
-(define-cite ~cite cite-noun generate-bib) ;; #:style number-style)
+(define-cite ~cite cite-noun generate-bib #:style number-style) ;; acmart-style
 
 (define-syntax-rule (define-bib name stuff ...)
   (define name (make-bib stuff ...)))

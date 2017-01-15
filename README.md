@@ -7,10 +7,8 @@ This is my proposal for a demonstration at
 Viewing the article
 -------------------
 
-HTML and PDF versions of the extended version of the article (26 pages)
-can be found here:
+You can find a PDF version of the article (2 pages) at:
 
-  * http://fare.tunes.org/files/asdf2017/asdf2017.html
   * http://fare.tunes.org/files/asdf2017/asdf2017.pdf
 
 
@@ -18,5 +16,6 @@ Notes
 -----
 
 The article can be compiled using PLT Racket's Scribble, from
-[asdf2017.scrbl](https://github.com/fare/asdf2017/blob/master/asdf2017.scrbl).
+[asdf2017.scrbl](https://github.com/fare/asdf2017/blob/master/asdf2017.scrbl),
+using the experimental [acmart](https://github.com/fare/acmart) package.
 See the various [Makefile](https://github.com/fare/asdf2017/blob/master/Makefile) targets.
