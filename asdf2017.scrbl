@@ -93,7 +93,7 @@ CLISP, ECL and SBCL.
 @; currently requires a simple patch. XXX
 
 Loading a Lisp application, from source or from compiled files,
-can take up to multiple seconds, depending on application size.
+can take multiple seconds, depending on application size.
 This delay is fine at the start of a development session, but
 can be unacceptable for interactive use at the shell command-line.
 In those cases, @(ASDF3) can deliver a standalone executable
