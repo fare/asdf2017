@@ -9,6 +9,7 @@
           (only-in scribble/core style)
           "utils.rkt" "bibliography.scrbl")
 
+@set-top-matter[#:printccs #t #:printacmref #f #:printfolios #f]
 @authorinfo["Robert P. Goldman" "SIFT" "rpgoldman@sift.info"]
 @authorinfo["Elias Pipping" "FU Berlin" "elias.pipping@fu-berlin.de"]
 @authorinfo["François-René Rideau" "TUNES" "fare@tunes.org"]
@@ -16,13 +17,19 @@
   "The 10th European Lisp Symposium" "April 3--4, 2017" "Brussel, Belgium"]
 @copyright-year{2017}
 @set-copyright{none}
-@set-top-matter[#:printccs #f #:printacmref #f #:printfolios #f]
 @acm-doi{}
-
-
-@XXX{
-@category["D.2.3 " "Software Engineering "]{ Coding Tools and Techniques}
+@ccsxml{
+<ccs2012>
+<concept>
+<concept_id>10011007.10011006.10011073</concept_id>
+<concept_desc>Software and its engineering~Software maintenance tools</concept_desc>
+<concept_significance>300</concept_significance>
+</concept>
+</ccs2012>
 }
+
+@ccsdesc[300]{Software and its engineering~Software maintenance tools}
+
 @keywords{
   ASDF,
   Build System,
@@ -144,8 +151,8 @@ With @(run-program) and now @(launch-program),
 one would previously use a shell script, except in a much more robust way,
 with rich data structures instead of a stringly-typed language,
 and higher-order functions and restartable error conditions
-instead of the very poor control structures of shell scripting
-and other scripting languages
+instead of the very poor control structures of shells
+and scripting languages
 @~cite[Lisp-Acceptable-Scripting-Language] @~cite[CL-Scripting-2015].
 
 @hyperlink["https://gitlab.common-lisp.net/asdf/asdf/blob/master/uiop/README.md"]{@(UIOP)}
