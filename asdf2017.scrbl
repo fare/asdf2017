@@ -139,8 +139,8 @@ and by @(ASDF3.1) it has become a full-fledged portable interface
 to synchronously execute commands in subprocesses.
 It handles redirection and transformation of input, output and error-output,
 error status, etc.
-Now in 2016, @(EP) refactored and extended the underlying logic
-so that @(ASDF3.2) now exposes to the user
+Now in 2016, @(EP) has refactored and extended the underlying logic
+so that @(ASDF3.2) exposes to the user
 the spawning of asynchronous processes and basic interaction with them,
 on those implementations and platforms that offer the capability.
 Newly added functions in this context include
@@ -148,8 +148,8 @@ Newly added functions in this context include
 
 With @(run-program) and now @(launch-program),
 @(CL) can be used to portably write all kind of programs for which
-one would previously use a shell script, except in a much more robust way,
-with rich data structures instead of a stringly-typed language,
+one would previously have used a shell script, except in a much more robust way,
+with rich data structures instead of a strongly-typed language,
 and higher-order functions and restartable error conditions
 instead of the very poor control structures of shells
 and scripting languages
@@ -160,18 +160,18 @@ abstracts away the differences
 between implementations and between operating systems
 while providing a lot of basic functionality,
 notably in accessing the filesystem, etc.
-It fully replaces many previous less portable or less robust libraries.
+It fully replaces many less portable or less robust libraries.
 However, it is constrained by the requirement that it is pure Lisp code
 using interfaces provided by the underlying implementations;
-it notably doesn't require the availability of a C compiler.
+it notably does not require the availability of a C compiler.
 Therefore, for full coverage of the capabilities offered by operating systems,
 it is better to use a library such as
 @hyperlink["https://common-lisp.net/project/osicat/"]{@tt{osicat}} or
-@hyperlink["https://common-lisp.net/project/iolib/"]{@tt{IOLib}},
-that will provide full access to the underlying operating system interfaces
+@hyperlink["https://common-lisp.net/project/iolib/"]{@tt{IOLib}}
+which provide full access to the underlying operating system interfaces
 by invoking a C compiler or by linking C libraries via the @tt{CFFI} library.
 The previously discussed improvements in application delivery
-make that option acceptable in many cases that it once wasn't.
+make that option acceptable in many cases where it once was not.
 
 
 @section{Build Model Correctness}
