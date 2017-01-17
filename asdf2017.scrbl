@@ -85,9 +85,9 @@ libraries and executables from Lisp systems.
 In 2012, @(FRR) ported it to other platforms, and
 eventually made it a part of @(ASDF3),
 stable and robust across all active Lisp implementations and operating systems.
-It is now possible to portably deliver software as a single-file:
-as a combined source or compiled file to load into an existing Lisp image,
-as an image to serve as the basis for further development,
+@(ASDF) can now portably deliver software as a single-file:
+either as a combined source or compiled file to load into a Lisp process,
+as a saved image to serve as the basis for further development,
 or as a standalone application.
 
 Since 2015, cffi-toolchain, a part of the @(de_facto) standard
@@ -99,11 +99,11 @@ CLISP, ECL and SBCL.
 @; Unfortunately, the popular implementation SBCL
 @; currently requires a simple patch. XXX
 
-Loading a Lisp application, from source or from compiled files,
-can take multiple seconds, depending on application size.
+Loading a large Lisp application, from source or from compiled files,
+can take multiple seconds.
 This delay is fine at the start of a development session, but
 can be unacceptable for interactive use at the shell command-line.
-In those cases, @(ASDF3) can deliver a standalone executable
+@(ASDF3) can reduce this latency by delivering a standalone executable
 that can start in twenty milliseconds.
 However such executables occupy tens or hundreds of megabytes
 on disk and in memory.
@@ -177,16 +177,18 @@ make that option acceptable in many cases that it once wasn't.
 @section{Build Model Correctness}
 
 The original @(ASDF1) introduced
-a simple and elegant ``plan then execute'' model
-for building software. It also introduced a simple and elegant extensible
-object model for extending the build model to support more than just
-compiling simple Lisp files (such as CFFI to compile C extensions).
-However, these two features were at odds with one another: to load a program
-that uses an extension, one would first use @(ASDF) to plan and execute
-loading the extension, then one could plan and execute loading
-the target program, in two separate phases of planning and execution.
-And of course, there could be more than just two phases, and there could also
-be libraries that would be used in several phases.
+a simple ``plan then execute'' model for building software.
+It also introduced an extensible class hierarchy
+so ASDF could be extended in Lisp itself
+to support more than just compiling Lisp files;
+thus one can use CFFI to compile extensions written in C.
+However, these two features were at odds with one another:
+to load a program that uses an extension,
+one would first use @(ASDF) to plan and execute loading the extension,
+then one could plan and execute loading the target program,
+in two separate phases of planning and execution.
+And of course, there could be more than just two phases, and
+there could also be libraries that would be used in several phases.
 
 In practice, this simple approach was effective in building
 software from scratch, though not necessarily as efficient as possible
@@ -194,14 +196,14 @@ since libraries could sometimes unnecessarily
 be compiled or loaded more than once.
 However, in the case of an incremental build, @(ASDF) would overlook that
 a change in one phase could affect the build in a later phase,
-and fail to invalidate and re-perform actions accordingly;
-in particular, it would not reload a system definition
+and fail to invalidate and re-perform actions accordingly.
+In particular, it would not reload a system definition
 when this definition itself depended on code that had changed.
-It was then up to the user to diagnose the failure and
-force a rebuild from scratch.
+The user was then responsible for diagnosing the failure and
+forcing a rebuild from scratch.
 
 @(ASDF3.3) fixes this issue by supporting the notion of
-a session within which code is built and loaded in several phases;
+a session within which code is built and loaded in multiple phases;
 it tracks the status of traversed actions across phases of a session,
 whereby an action can independently be
 (1) considered up-to-date or not at the start of the session,
@@ -213,8 +215,8 @@ nor perform any other actions that are potentially
 either out-of-date or not needed for the session;
 there are therefore several variants of traversals for the action graph.
 
-Note that the problem of dependency tracking in the presence
-of build extensions is latent in every build system in every language.
+Note that the problem of dependency tracking in the presence of build extensions
+is latent in every build system in every language.
 Most build systems do not deal well with phase separation;
 most that do are language-specific build systems (like @(ASDF)),
 but only deal with staging macros or extensions inside the language,
@@ -222,7 +224,7 @@ not with building arbitrary code outside the language.
 An interesting case is @hyperlink["https://bazel.build/"]{Bazel},
 which does maintain a strict plan-then-build model
 yet allows user-provided extensions
-(e.g. to support Lisp  @~cite[Bazelisp-2016]).
+(e.g. to support Lisp @~cite[Bazelisp-2016]).
 Its extensions, written in a safe restricted DSL,
 @; running into plan phase only; (with two subphases, load and analysis)
 are not themselves subject to extension using the build system.
