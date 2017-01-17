@@ -149,10 +149,10 @@ Newly added functions in this context include
 With @(run-program) and now @(launch-program),
 @(CL) can be used to portably write all kind of programs for which
 one would previously have used a shell script, except in a much more robust way,
-with rich data structures instead of a strongly-typed language,
+with rich data structures instead of a ``stringly-typed'' language,
 and higher-order functions and restartable error conditions
 instead of the very poor control structures of shells
-and scripting languages
+and ``scripting'' languages
 @~cite[Lisp-Acceptable-Scripting-Language] @~cite[CL-Scripting-2015].
 
 @hyperlink["https://gitlab.common-lisp.net/asdf/asdf/blob/master/uiop/README.md"]{@(UIOP)}
