@@ -161,7 +161,7 @@ between implementations and between operating systems
 while providing a lot of basic functionality,
 notably in accessing the filesystem, etc.
 It fully replaces many less portable or less robust libraries.
-However, it is constrained by the requirement that it is pure Lisp code
+It is constrained though by the requirement that it is pure Lisp code
 using interfaces provided by the underlying implementations;
 it notably does not require the availability of a C compiler.
 However these interfaces do not offer full coverage
