@@ -164,12 +164,12 @@ It fully replaces many less portable or less robust libraries.
 However, it is constrained by the requirement that it is pure Lisp code
 using interfaces provided by the underlying implementations;
 it notably does not require the availability of a C compiler.
-Therefore, for full coverage of the capabilities offered by operating systems,
-it is better to use a library such as
+However these interfaces do not offer full coverage
+of the capabilities offered by operating systems;
+for that coverage one may use
 @hyperlink["https://common-lisp.net/project/osicat/"]{@tt{osicat}} or
-@hyperlink["https://common-lisp.net/project/iolib/"]{@tt{IOLib}}
-which provide full access to the underlying operating system interfaces
-by invoking a C compiler or by linking C libraries via the @tt{CFFI} library.
+@hyperlink["https://common-lisp.net/project/iolib/"]{@tt{IOLib}},
+that compile C code and/or link C libraries via the @tt{CFFI} library.
 The previously discussed improvements in application delivery
 make that option acceptable in many cases where it once was not.
 
@@ -275,9 +275,9 @@ Since 2014, @(ASDF) provides a script @tt{tools/cl-source-registry-cache.lisp}
 that will scan a tree in advance
 and create a file @tt{.cl-source-registry.cache} with the results,
 that @(ASDF) will consult.
-Thus, @(ASDF) can get scanning results at startup in milliseconds
-for power users who use this pre-scanning script;
-the price they pay is having to re-run this script (or manually edit the file)
+Power users who use this script can get scanning results at startup
+in milliseconds;
+the price they pay is having to re-run this script (or otherwise edit the file)
 whenever they install new software or remove old software.
 This is remindful of the bad old days before @(ASDF2),
 when power users each had to write their own script to do something equivalent
@@ -292,9 +292,8 @@ We have demonstrated how @(ASDF) can be used to
 portably and robustly deliver software written in @(CL),
 as an alternative to both ``scripting'' and ``programming'' languages.
 While our implementation is specific to @(CL),
-many of the same ideas could be applied to
-other programming languages, to extend their ability to deliver
-both applications and ``scripts''.
+many of the same ideas could be applied to other languages,
+to extend their ability to deliver both ``scripts'' and applications.
 
 In the future, there are many features we might want to add,
 in dimensions where @(ASDF) lags behind other build systems such as Bazel:
