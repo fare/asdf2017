@@ -10,7 +10,7 @@
           "utils.rkt" "bibliography.scrbl")
 
 @set-top-matter[#:printccs #t #:printacmref #f #:printfolios #f]
-@authorinfo["Robert P. Goldman" "SIFT" "rpgoldman@sift.info"]
+@authorinfo["Robert P. Goldman" "SIFT" "rpgoldman@sift.net"]
 @authorinfo["Elias Pipping" "FU Berlin" "elias.pipping@fu-berlin.de"]
 @authorinfo["François-René Rideau" "TUNES" "fare@tunes.org"]
 @conferenceinfo[#:short-name "ELS 2017"
@@ -45,13 +45,14 @@
 has markedly improved over the years,
 in features as well as robustness and portability.
 We present a few notable improvements since we last reported on it in 2014:
-enhanced mechanisms for single-file delivery of applications;
-a reasonably portable @tt{launch-program} layer for asynchronous subprocesses;
-a correct incremental build in presence of @(ASDF) extensions,
-now with proper phase separation;
-enhancements with configuration for source location.
-These improvements make @(CL) a better platform for
-writing and delivering applications as well as ``scripts''.
+enhanced mechanisms for delivering an application as a single file;
+a @tt{launch-program} feature for managing asynchronous subprocesses;
+correct incremental builds when @(ASDF) extensions are updated,
+with proper phase separation; and
+enhancements to the configuration process for source location.
+These improvements make @(CL) a better platform not simply for
+writing and delivering applications but also
+for use in scripting other applications.
 }
 
 @section{Introduction}
