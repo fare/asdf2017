@@ -16,11 +16,22 @@
 
 (define variant (make-parameter '#:public))
 (define (annotated?) (eq? (variant) '#:annotated))
-(define annotation-style
+(define elias-style
+  (make-style #f (list (make-color-property "red"))))
+(define fare-style
+  (make-style #f (list (make-color-property "green"))))
+(define rpg-style
   (make-style #f (list (make-color-property "blue"))))
 (define-syntax-rule (annotation x ...)
-  (when (annotated?)
-    (make-element annotation-style (list x ...))))
+  (when (annotated?) (decode-content (list x ...))))
+
+(define (elias . x)
+  (annotation (make-element elias-style (list x " —EP"))))
+(define (fare . x)
+  (annotation (make-element fare-style (list x " —FRR"))))
+(define (rpg . x)
+  (annotation (make-element rpg-style (list x " —RPG"))))
+
 
 (define (note-url url)
   (note (hyperlink url url)))

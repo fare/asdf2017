@@ -55,7 +55,7 @@ writing and delivering applications but also
 for use in scripting other applications.
 }
 
-@annotation{
+@rpg{
   I don't think the abstract here really makes an argument.  We enumerate
   a list of 4 improvements and claim that some subset of these improvements
   provides 2 benefits:
@@ -73,7 +73,31 @@ for use in scripting other applications.
   that the notion of scripting is problematic, and provide our attempt at a
   definition.
   Right now it seems like we are saying
-  "scripting is poorly defined, but we talk about it anyway." - RPG}
+  "scripting is poorly defined, but we talk about it anyway."}
+
+@fare{
+  We have struggled hard to fit within 2 pages, but if you feel we have enough
+  material to expand on the topic, we can aim for a longer article with the
+  8-page limit. That said, there may or may not be other venues to discuss
+  scripting. Actually, maybe we want to publish a separate article on the topic.
+}
+
+@fare{
+  In any case, I believe I gave a reasonable characterization of scripting
+  in my 2014 articles, as programming with low-overhead access to functionality
+  from the rest of the system. Therefore,
+  (1) being invocable as a script or a command by the rest of the world
+      (with cl-launch),
+  (2) being able to access the filesystem and invoke other command
+      (with uiop and/or inferior-shell),
+  (3) not having to explicitly deal with dependency location
+      (with the source-registry), and
+  (4) not having to explicitly deal with object file management
+      (with the output-translations cache).
+  Of course, the programming part itself entails a lot of
+  (5) string manipulations (including with regexps)
+      because the system functionality is exposed as strings.
+}
 
 @section{Introduction}
 
