@@ -5,7 +5,8 @@ src = asdf2017.scrbl utils.rkt bibliography.scrbl
 
 #export PLTCOLLECTS:=$(shell pwd):${PLTCOLLECTS}
 
-all: asdf2017.PDF # asdf asdf3-2014.PDF # html # slideshow # PDF
+all: asdf2017.PDF
+ann: asdf2017-annotated.PDF
 html: ${ae}.html
 pdf: ${ae}.pdf
 PDF: pdf ${ae}.PDF

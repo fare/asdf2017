@@ -55,6 +55,26 @@ writing and delivering applications but also
 for use in scripting other applications.
 }
 
+@annotation{
+  I don't think the abstract here really makes an argument.  We enumerate
+  a list of 4 improvements and claim that some subset of these improvements
+  provides 2 benefits:
+  (1) general ASDF goodness, and (2) scripting.  But we leave it
+  entirely to the reader to guess the connections between improvements and
+  benefits.  Another alternative would be to simply strike the discussion of
+  scripting (defer to a different paper),
+  since the title is all about delivering
+  applications, and doesn't tell the reader we are concerned with scripting.
+  Also, I think we need to do one of two things: either (1) agree that scripting
+  is like pornography -- we don't have a definition,
+  but we know it when we see it
+  -- and not put in scare quotes every time we talk about scripting;
+  or (2) decide
+  that the notion of scripting is problematic, and provide our attempt at a
+  definition.
+  Right now it seems like we are saying
+  "scripting is poorly defined, but we talk about it anyway." - RPG}
+
 @section{Introduction}
 
 The general-purpose programming language
