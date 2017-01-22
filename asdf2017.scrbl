@@ -106,43 +106,64 @@ The general-purpose programming language
 @; with a @hyperlink["https://www.dreamsongs.com/Files/Incommensurability.pdf"]{systems paradigm},
 @; XXX @~cite[Incommensurability],
 has over ten actively used implementations
-on Linux, Windows, macOS, etc.
+on Linux, Windows, Mac OS X, etc.
 @hyperlink["https://common-lisp.net/project/asdf/"]{@(ASDF)},
 the @(de_facto) standard build system for @(CL),
 has matured from a wildly successful experiment
 to a universally used, robust, portable tool.
-All the while it maintained backward compatibility through several generations of code,
+While doing so, @(ASDF) has
+maintained backward compatibility through several major revisions,
 from the original @(ASDF) written by Daniel Barlow in 2002 @; XXX @~cite[ASDF-Manual]
 to the versions largely rewritten by François-René Rideau,
 @(ASDF2) in 2010, @(ASDF3) in 2013, and now @(ASDF3.3) in 2017.
-It is now provided as a loadable extension by all active implementations,
-and is notably used by @hyperlink["https://quicklisp.org/"]{Quicklisp},
-a growing collection of now over 1400 @(CL) libraries.
+@(ASDF) is now provided as a loadable extension by all actively maintained CL implementations.
+@(ASDF) also provides the system loading infrastructure for 
+@hyperlink["https://quicklisp.org/"]{Quicklisp},
+a growing collection of now over 1,400 @(CL) libraries.
+@rpg{Fix the following: ungrammatical.}
 We present notable improvements
 since we last published on @(ASDF) @~cite[Lisp-Acceptable-Scripting-Language],
 beside addressing portability, bugs and bitrot.
 
 @section{Application Delivery}
 
-In 2005, Michael Goffioul implemented ``bundle operations'',
-an extension to @(ASDF) on ECL to create static and dynamic
-libraries and executables from Lisp systems.
-In 2012, @(FRR) ported it to other platforms, and
-eventually made it a part of @(ASDF3),
-stable and robust across all active Lisp implementations and operating systems.
-@(ASDF) can now portably deliver software as a single-file:
-either as a combined source or compiled file to load into a Lisp process,
-as a saved image to serve as the basis for further development,
-or as a standalone application.
+Versions 3.2 and 3.3 of @(ASDF) add new facilities for delivering CL
+applications.  The initial impetus for adding these features was to
+support Embeddable Common Lisp (ECL), an implementation in which CL code may
+be translated into C and then compiled.  To support ECL, @(ASDF) added
+@emph{bundle operations}, which were later generalized to other CL implementations.
+ASDF now supports a wide variety of system delivery options.  Working with
+the portable foreign function interface CFFI, @(ASDF) can also bundle libraries
+and foreign code with a CL application.  Finally, @(ASDF) has been enhanced to
+support rapid application start up.
 
-Since 2015, cffi-toolchain, a part of the @(de_facto) standard
-foreign function interface @hyperlink["https://common-lisp.net/project/cffi/"]{CFFI},
-extends @(ASDF3.1) to portably deliver applications as a single executable file
+In 2005, Michael Goffioul implemented bundle operations,
+an extension to @(ASDF) on ECL.
+Using these bundle operations, @(ASDF) was enabled
+to create static and dynamic
+libraries and executables from Lisp systems.
+In 2012, @(FRR) ported bundle operations to other lisp implementations, and
+incorporated it into @(ASDF3).
+Bundle operations are now
+stable and robust across all active CL implementations and operating systems.
+@(ASDF) can now portably deliver software systems as single, bundled files.
+Bundled systems can be delivered in a number of different ways:
+(1) as a single source file, containing the combined source code for the system and its dependencies;
+(2) as a single FASL file;
+(3) as a saved lisp image; 
+or (4) as a standalone application.
+
+More recently, we have extended @(ASDF)'s bundle operations to handle systems that
+incorporate C code and libraries.
+To do so, we have built on cffi-toolchain, a part of the @(de_facto) standard
+foreign function interface @hyperlink["https://common-lisp.net/project/cffi/"]{CFFI}.
+Now ASDF can portably deliver applications as a single executable file
 with arbitrary C code and libraries statically linked.
-As of 2017, it works on three implementations:
-CLISP, ECL and SBCL.
-@; Unfortunately, the popular implementation SBCL
-@; currently requires a simple patch. XXX
+As of 2017, bundling with C code works on three implementations:
+Gnu CLISP, ECL, and Steel Bank Common Lisp (SBCL).
+
+@rpg{The following needs to be rewritten to be stand-alone.  Right now, if the reader
+isn't familiar with busybox, they will have no idea what we are talking about.}
 
 Loading a large Lisp application, from source or from compiled files,
 can take multiple seconds.
@@ -166,8 +187,50 @@ also adopted the same capability.
 @; Moreover, libraries now exist to help write Lisp utilities that are callable and
 @; usable at the shell command-line as well as at the @(CL) command-line.
 
+@section{UIOP}
+
+@hyperlink["https://gitlab.common-lisp.net/asdf/asdf/blob/master/uiop/README.md"]{@(UIOP)}
+provides a portability layer, abstracting
+away the differences
+between implementations and operating systems.
+@(UIOP) provides 
+a lot of basic functionality,
+in accessing the filesystem, managing differences in the way implementations
+handle behaviors undefined by the ANSI specification, etc.
+@(UIOP) fully replaces many less portable or less robust libraries.
+@rpg{It would be good to give some examples here, such as CL-FAD,
+trivial-xxx}.
+@(UIOP) is constrained  by the requirement that it be pure Lisp code
+using interfaces provided by the underlying implementations.
+In particular, it cannot 
+require the availability of a C compiler.
+
+Because of this limitation, @(UIOP) does not
+offer full coverage
+of the capabilities offered by operating systems.
+For additional capabilities,
+one may use
+@hyperlink["https://common-lisp.net/project/osicat/"]{@tt{osicat}} or
+@hyperlink["https://common-lisp.net/project/iolib/"]{@tt{IOLib}}.
+These are systems
+that compile C code and/or link C libraries via the @tt{CFFI} library.
+@; The previously discussed improvements in application delivery
+@; make that option acceptable in many cases where it once was not.
 
 @section{Subprocess Management}
+
+@(ASDF) has always supported the ability to run programs.  Originally, this was
+done by means of an @italic{ad hoc} @(run-shell-command) function.  Later, as we needed more
+functionality and supported more implementations and operating systems, @(run-shell-command)
+was replaced by @(run-program), which provides finer-grained control over program
+inputs and outputs.  @(ASDF3.2) introduced support for asynchronously running programs
+using a new @(launch-program) API function, and extensive refactoring and debugging.
+
+@rpg{The use of the term "polluted" in the following isn't at all clear.
+I @emph{think} what is meant is that somehow @(run-shell-command) could introduce
+spurious output into the shell process's output.  Is that it?  If so, we should say so.
+Also, there's no obvious connection between (1) not handling quoting and (2) encouraging
+brittle code, so what does that "instead was" mean?}
 
 @(ASDF1) copied over from its predecessor @(mk-defsystem) @~cite[MK-DEFSYSTEM]
 the function @(run-shell-command), that
@@ -177,17 +240,20 @@ it could not capture the output (and actually polluted it);
 it did not handle quoting well and instead was encouraging brittle code;
 it did not work on Windows.
 
-@(ASDF3) offered a new function @(run-program)
-as part of its portability library @(UIOP).
+@(ASDF3) offered a new function, @(run-program),
+as part of its portability library, @(UIOP).
 The new function fixes all the issues with @(run-shell-command),
-and by @(ASDF3.1) it has become a full-fledged portable interface
+providing
+a full-fledged portable interface
 to synchronously execute commands in subprocesses.
-It handles redirection and transformation of input, output and error-output,
-error status, etc.
-Now in 2016, @(EP) has refactored and extended the underlying logic
-so that @(ASDF3.2) exposes to the user
-the spawning of asynchronous processes and basic interaction with them,
-on those implementations and platforms that offer the capability.
+@(run-program) handles redirection and transformation of input, output, and error-output,
+exit status, etc.
+The caller has the option to handle subprocess errors by means of exit codes,
+or to have them transformed into CL conditions.
+
+For @(ASDF3.2), @(EP) refactored and extended the logic of @(run-program).
+Enabling programmers to spawn and control asynchronous processes
+(on those implementations and platforms that offer this capability).
 Newly added functions in this context include
 @(launch-program), @(wait-process), and @(terminate-process).
 
@@ -200,40 +266,25 @@ instead of the very poor control structures of shells
 and ``scripting'' languages
 @~cite[Lisp-Acceptable-Scripting-Language] @~cite[CL-Scripting-2015].
 
-@hyperlink["https://gitlab.common-lisp.net/asdf/asdf/blob/master/uiop/README.md"]{@(UIOP)}
-abstracts away the differences
-between implementations and between operating systems
-while providing a lot of basic functionality,
-notably in accessing the filesystem, etc.
-It fully replaces many less portable or less robust libraries.
-It is constrained though by the requirement that it is pure Lisp code
-using interfaces provided by the underlying implementations;
-it notably does not require the availability of a C compiler.
-However these interfaces do not offer full coverage
-of the capabilities offered by operating systems;
-for that coverage one may use
-@hyperlink["https://common-lisp.net/project/osicat/"]{@tt{osicat}} or
-@hyperlink["https://common-lisp.net/project/iolib/"]{@tt{IOLib}},
-that compile C code and/or link C libraries via the @tt{CFFI} library.
-The previously discussed improvements in application delivery
-make that option acceptable in many cases where it once was not.
-
-
 @section{Build Model Correctness}
 
 The original @(ASDF1) introduced
 a simple ``plan then execute'' model for building software.
 It also introduced an extensible class hierarchy
 so ASDF could be extended in Lisp itself
-to support more than just compiling Lisp files;
-thus one can use CFFI to compile extensions written in C.
-However, these two features were at odds with one another:
-to load a program that uses an extension,
+to support more than just compiling Lisp files.
+For example, @(ASDF) extensions for CFFI enable one to
+compile code written in C as part of a CL application.
+
+Unfortunately, 
+these two features were at odds with one another:
+to load a program that uses an @(ASDF) extension,
 one would first use @(ASDF) to plan and execute loading the extension,
 then one could plan and execute loading the target program,
 in two separate phases of planning and execution.
-And of course, there could be more than just two phases, and
-there could also be libraries that would be used in several phases.
+And of course, there could be more than just two phases -- there could be @(ASDF)
+extensions that required other extensions in order to load -- and
+there could be libraries that would be used in several phases.
 
 In practice, this simple approach was effective in building
 software from scratch, though not necessarily as efficient as possible
@@ -276,9 +327,9 @@ are not themselves subject to extension using the build system.
 @; (yet the DSL being a universal language, you could do it the hard way).
 
 To fix the build model in @(ASDF3.3),
-some internals were changed in backward-incompatible ways.
+some internals were changed in ways that were not backward compatible.
 Libraries available on Quicklisp were inspected,
-and their authors contacted if they were abusing those internals;
+and their authors contacted if they were (ab)using those internals;
 those libraries that are still maintained were fixed.
 
 
@@ -306,8 +357,11 @@ environment variables to locate its configuration.
 Since 2015, @(ASDF) exposes a configuration interface to users
 so all Lisp programs may use them and allow users to use the standard
 XDG mechanism to redirect where Lisp programs find their configuration.
-This mechanism works on Windows as well as on Unix,
-though it is less colloquial on Windows.
+This mechanism works on Mac OS X and Windows, as well as on Unix,
+but required some interpretation on the part of the @(ASDF) maintainers:
+the structure of the Mac filesystem does not agree with the proposed Linux
+standard, although they share a common origin, and the Windows layout is
+completely different.
 
 Finally, a concern for users
 with a large number of systems available as source code
@@ -324,7 +378,7 @@ Power users who use this script can get scanning results at startup
 in milliseconds;
 the price they pay is having to re-run this script (or otherwise edit the file)
 whenever they install new software or remove old software.
-This is remindful of the bad old days before @(ASDF2),
+This is reminiscent of the bad old days before @(ASDF2),
 when power users each had to write their own script to do something equivalent
 to manage ``link farms'', directories full of symlinks to @tt{.asd} files.
 But at least, there is now a standardized script for power users to do that,
@@ -332,6 +386,8 @@ whereas things just work without any such trouble for normal users.
 
 
 @section{Conclusion and Future Work}
+
+@rpg{revise...}
 
 We have demonstrated how @(ASDF) can be used to
 portably and robustly deliver software written in @(CL),
