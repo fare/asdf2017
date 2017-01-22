@@ -106,7 +106,7 @@ The general-purpose programming language
 @; with a @hyperlink["https://www.dreamsongs.com/Files/Incommensurability.pdf"]{systems paradigm},
 @; XXX @~cite[Incommensurability],
 has over ten actively used implementations
-on Linux, Windows, Mac OS X, etc.
+on Linux, Windows, macOS, etc.
 @hyperlink["https://common-lisp.net/project/asdf/"]{@(ASDF)},
 the @(de_facto) standard build system for @(CL),
 has matured from a wildly successful experiment
@@ -357,7 +357,7 @@ environment variables to locate its configuration.
 Since 2015, @(ASDF) exposes a configuration interface to users
 so all Lisp programs may use them and allow users to use the standard
 XDG mechanism to redirect where Lisp programs find their configuration.
-This mechanism works on Mac OS X and Windows, as well as on Unix,
+This mechanism works on macOS and Windows, as well as on Unix,
 but required some interpretation on the part of the @(ASDF) maintainers:
 the structure of the Mac filesystem does not agree with the proposed Linux
 standard, although they share a common origin, and the Windows layout is
