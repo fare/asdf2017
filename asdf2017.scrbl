@@ -113,17 +113,18 @@ has matured from a wildly successful experiment
 to a universally used, robust, portable tool.
 While doing so, @(ASDF) has
 maintained backward compatibility through several major revisions,
-from the original @(ASDF) written by Daniel Barlow in 2002 @; XXX @~cite[ASDF-Manual]
+from the original @(ASDF) written by Daniel Barlow in 2002
+@; XXX @~cite[ASDF-Manual]
 to the versions largely rewritten by François-René Rideau,
 @(ASDF2) in 2010, @(ASDF3) in 2013, and now @(ASDF3.3) in 2017.
-@(ASDF) is now provided as a loadable extension by all actively maintained CL implementations.
-@(ASDF) also provides the system loading infrastructure for 
+@(ASDF) is provided as a loadable extension
+by all actively maintained CL implementations;
+it is also used as the system loading infrastructure for
 @hyperlink["https://quicklisp.org/"]{Quicklisp},
 a growing collection of now over 1,400 @(CL) libraries.
-@rpg{Fix the following: ungrammatical.}
-We present notable improvements
-since we last published on @(ASDF) @~cite[Lisp-Acceptable-Scripting-Language],
-beside addressing portability, bugs and bitrot.
+We present notable improvement made to @(ASDF)
+since we last published on it @~cite[Lisp-Acceptable-Scripting-Language],
+beside our addressing portability issues, bugs and bitrot.
 
 @section{Application Delivery}
 
@@ -150,7 +151,7 @@ stable and robust across all active CL implementations and operating systems.
 Bundled systems can be delivered in a number of different ways:
 (1) as a single source file, containing the combined source code for the system and its dependencies;
 (2) as a single FASL file;
-(3) as a saved lisp image; 
+(3) as a saved lisp image;
 or (4) as a standalone application.
 
 More recently, we have extended @(ASDF)'s bundle operations to handle systems that
@@ -193,7 +194,7 @@ also adopted the same capability.
 provides a portability layer, abstracting
 away the differences
 between implementations and operating systems.
-@(UIOP) provides 
+@(UIOP) provides
 a lot of basic functionality,
 in accessing the filesystem, managing differences in the way implementations
 handle behaviors undefined by the ANSI specification, etc.
@@ -202,7 +203,7 @@ handle behaviors undefined by the ANSI specification, etc.
 trivial-xxx}.
 @(UIOP) is constrained  by the requirement that it be pure Lisp code
 using interfaces provided by the underlying implementations.
-In particular, it cannot 
+In particular, it cannot
 require the availability of a C compiler.
 
 Because of this limitation, @(UIOP) does not
@@ -276,7 +277,7 @@ to support more than just compiling Lisp files.
 For example, @(ASDF) extensions for CFFI enable one to
 compile code written in C as part of a CL application.
 
-Unfortunately, 
+Unfortunately,
 these two features were at odds with one another:
 to load a program that uses an @(ASDF) extension,
 one would first use @(ASDF) to plan and execute loading the extension,
