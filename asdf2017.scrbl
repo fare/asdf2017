@@ -162,9 +162,9 @@ all active @(CL) implementations and operating systems.
 We additionally extended them so that @(ASDF3.2) supports single-file delivery
 of applications that incorporates arbitrary C code and libraries.
 This feature works in conjunction with cffi-toolchain,
-an extension we added to the @(de_facto) standard foreign function interface
+an extension which we added to the @(de_facto) standard foreign function interface
 @hyperlink["https://common-lisp.net/project/cffi/"]{CFFI},
-and will statically link any such C code into the Lisp runtime.
+and which will statically link any such C code into the Lisp runtime.
 As of 2017, this feature works on three implementations:
 CLISP, ECL, and SBCL.
 
@@ -178,7 +178,7 @@ This delay is acceptable at the start of a development session, but not
 when invoking instant interactive programs at the shell command-line.
 @(ASDF3) can reduce this latency by delivering a standalone executable
 that can start in twenty milliseconds.
-However such executables each occupy tens or hundreds of megabytes
+However, such executables each occupy tens or hundreds of megabytes
 on disk and in memory.
 This size overhead is not much by current standards
 when a single application runs on a computer;
@@ -328,7 +328,7 @@ whereby an action can independently be
 (2) considered done or not for the session,
 and (3) considered needed or not during the session.
 When it merely checks whether an action is still valid from previous sessions,
-@(ASDF3.3) takes special care not to load system definitions
+@(ASDF3.3) takes special care to neither load system definitions
 nor perform any other actions that are potentially
 either out-of-date or not needed for the session;
 there are therefore several variants of traversals for the action graph.
@@ -349,7 +349,7 @@ are not themselves subject to extension using the build system.
 @; (yet the DSL being a universal language, you could do it the hard way).
 
 To fix the build model in @(ASDF3.3),
-some internals were changed in ways that were not backward compatible.
+some internals were changed in backward-incompatible ways.
 Libraries available on Quicklisp were inspected,
 and their authors contacted if they were (ab)using those internals;
 those libraries that are still maintained were fixed.
