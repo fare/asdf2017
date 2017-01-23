@@ -1,4 +1,4 @@
-#lang at-exp scribble/acmart @[#:format 'sigplan #:authorversion #t]
+#lang scribble/acmart @(format "sigplan") @authorversion
 @;-*- Scheme -*-
 
 @(require scribble/base
@@ -39,7 +39,7 @@
   demo
 }
 
-@title{Building Portable Common Lisp Applications with @(ASDF3.3)}
+@title{Delivering Common Lisp Applications with @(ASDF3.3)}
 
 @abstract{
 @(ASDF), the @(de_facto) standard build system for @(CommonLisp) (CL),
