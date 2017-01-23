@@ -46,8 +46,11 @@
 has markedly improved over the years,
 in features as well as robustness and portability.
 Since we last reported on it in 2014,
+@elias{"we enhanced mechanisms" sounds odd}
 we enhanced mechanisms for delivering an application as a single file;
 we added a @tt{launch-program} feature for managing asynchronous subprocesses;
+@elias{what does it mean for a build to be correct? it sounds odd. Do
+we mean the dependency resolution? if so, can we just say that?}
 we implemented proper phase separation so incremental builds are correct
 when @(ASDF) extensions are updated;
 and we improved the configuration process for source location.
@@ -124,6 +127,7 @@ it also serves as the system loading infrastructure for
 @hyperlink["https://quicklisp.org/"]{Quicklisp},
 a growing collection of now over 1,400 @(CL) libraries.
 We present notable improvement made to @(ASDF)
+@elias{can we say "reported on it" rather than "published on it"?}
 since we last published on it @~cite[Lisp-Acceptable-Scripting-Language],
 beside our addressing portability issues, bugs and bitrot.
 
@@ -175,12 +179,14 @@ they will have no idea what we are talking about.}
 Loading a large Lisp application, either from source or from compiled files,
 can take multiple seconds.
 This delay is acceptable at the start of a development session, but not
+@elias{what is meant by an instant program?}
 when invoking instant interactive programs at the shell command-line.
 @(ASDF3) can reduce this latency by delivering a standalone executable
 that can start in twenty milliseconds.
 However, such executables each occupy tens or hundreds of megabytes
 on disk and in memory.
 This size overhead is not much by current standards
+@elias{the second half of this sentence sounds a bit redundant}
 when a single application runs on a computer;
 but it can be prohibitive when deploying a large number
 of small scripts and utilities.
@@ -191,6 +197,7 @@ the binary can be symlinked or hardlinked with multiple names,
 and detect which program is meant depending on what name it was invoked with;
 or users can explicitly specify which program to run.
 Zach Beane's @hyperlink["http://www.xach.com/lisp/buildapp/"]{@tt{buildapp}}
+@elias{"could do it" seems overly informal}
 could do it since 2010, but only worked on SBCL, and more recently CCL;
 since 2015, @hyperlink["http://www.cliki.net/cl-launch"]{@tt{cl-launch}},
 a portable interface between the Unix shell and all @(CL) implementations,
@@ -292,6 +299,9 @@ and other ``scripting'' languages
 
 @section{Build Model Correctness}
 
+@elias{How does ``plan then execute`` relate to plan-then-build? Also,
+why is one written in quotes, one with dashes?}
+
 The original @(ASDF1) introduced
 a simple ``plan then execute'' model for building software.
 It also introduced an extensible class hierarchy
@@ -333,6 +343,9 @@ nor perform any other actions that are potentially
 either out-of-date or not needed for the session;
 there are therefore several variants of traversals for the action graph.
 
+@elias{The words "latent in" confuse me here. Would replacing them
+with "instrinsic to" change the meaning here?}
+
 Note that the problem of dependency tracking in the presence of build extensions
 is latent in every build system in every language.
 Most build systems do not deal well with phase separation;
@@ -372,10 +385,14 @@ in its source-registry by default, so that there is always an obvious place
 in which to drop source code so that it will be found by @(ASDF),
 whether you want it to be visible to the end-user or not.
 
+@elias{Would replacing "heeds" with "respects" change the meaning here?}
+
 @(ASDF2) also heeds the
 @hyperlink["https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html"]{XDG}
 @; XXX cite? XDG Base Directory Specification, 2010
 environment variables to locate its configuration.
+@elias{This sentence seems broken (who allows what? also, the word
+"use" is used far too many times.}
 Since 2015, @(ASDF) exposes a configuration interface to users
 so all Lisp programs may use them and allow users to use this Unix standard
 to redirect where Lisp programs find their configuration.
@@ -383,6 +400,9 @@ We also support this mechanism available on macOS and Windows,
 though we had to make some @(ASDF)-specific interpretations:
 the macOS filesystem layout does not match this Unix standard,
 and the Windows layout is completely different.
+
+@elias{What is meant by the macOS filesystem layout in the above? Is
+that even a thing?}
 
 Finally, a concern for users
 with a large number of systems available as source code
