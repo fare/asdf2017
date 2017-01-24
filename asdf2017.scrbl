@@ -42,12 +42,27 @@
 @title{Delivering Common Lisp Applications with @(ASDF3.3)}
 
 @abstract{
-@(ASDF), the @(de_facto) standard build system for @(CommonLisp) (CL),
-has markedly improved over the years,
-in features as well as robustness and portability.
-Since we last reported on it in 2014,
-we provided better mechanisms to deliver an application as a single file;
-we added a @tt{launch-program} feature for managing asynchronous subprocesses;
+@(ASDF) is the @(de_facto) standard build system for @(CommonLisp) (CL).
+In this paper we discuss the most important improvements
+in @(ASDF) versions 3.2 and 3.3.
+@(ASDF) now offers portable mechanisms for
+delivering applications and libraries to users,
+rather than simply supporting build from source.
+@(ASDF) includes @(UIOP), a portability layer for @(ASDF).
+We have substantially improved and extended @(UIOP)'s ability
+to spawn and control external processes, including asynchronous processes.
+One of the features of @(ASDF) is that it permits programmers to
+extend @(ASDF)'s build processes in an object-oriented way.
+Until @(ASDF3.2), however, @(ASDF) did not correctly handle
+updates to @(ASDF) extensions during incremental builds.
+Fixing this involved managing multiple phases of the @(ASDF) build process.
+Finally, we have substantially improved the process by which
+users can configure @(ASDF)'s search for system source code.
+Taken together, these improvements substantially increase
+@(ASDF)'s ability to support application and library
+development, delivery, and maintenance.
+}
+
 @elias{what does it mean for a build to be correct? it sounds odd. Do
 we mean the dependency resolution? if so, can we just say that?} @;
 @fare{See the corresponding section.
@@ -57,13 +72,6 @@ and sometimes it may build too little, which is very bad:
 it can yield incorrect code, error when it should,
 or fail to error when it should which can lead users
 to unwittingly commit broken code -- we'd sometimes get bitten at ITA.} @;
-we implemented proper phase separation so incremental builds will correctly
-invalidate actions when @(ASDF) extensions are updated;
-and we improved the configuration process for source location.
-@(CL) was thus made a better platform not simply for
-writing and delivering applications but also
-for use in scripting other applications.
-}
 
 @rpg{
   I don't think the abstract here really makes an argument.  We enumerate
