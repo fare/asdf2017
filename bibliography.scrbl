@@ -133,3 +133,9 @@
   #:author "James Y. Knight, François-René Rideau and Andrzej Walczak"
   ;; #:url "http://github.com/qitab/bazelisp"
   #:date "2016")
+
+(define-bib XDG-2010
+  #:title "XDG Base Directory Specification"
+  #:author "Waldo Bastian, Ryan Lortie and Lennart Poettering"
+  ;; #:url "https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html"
+  #:date "2010")

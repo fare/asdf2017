@@ -46,13 +46,19 @@
 has markedly improved over the years,
 in features as well as robustness and portability.
 Since we last reported on it in 2014,
-@elias{"we enhanced mechanisms" sounds odd}
-we enhanced mechanisms for delivering an application as a single file;
+we provided better mechanisms to deliver an application as a single file;
 we added a @tt{launch-program} feature for managing asynchronous subprocesses;
 @elias{what does it mean for a build to be correct? it sounds odd. Do
-we mean the dependency resolution? if so, can we just say that?}
-we implemented proper phase separation so incremental builds are correct
-when @(ASDF) extensions are updated;
+we mean the dependency resolution? if so, can we just say that?} @;
+@fare{See the corresponding section.
+Before 3.3, a multiphase build may sometimes build too much
+(which is a mere performance annoyance)
+and sometimes it may build too little, which is very bad:
+it can yield incorrect code, error when it should,
+or fail to error when it should which can lead users
+to unwittingly commit broken code -- we'd sometimes get bitten at ITA.} @;
+we implemented proper phase separation so incremental builds will correctly
+invalidate actions when @(ASDF) extensions are updated;
 and we improved the configuration process for source location.
 @(CL) was thus made a better platform not simply for
 writing and delivering applications but also
@@ -63,7 +69,7 @@ for use in scripting other applications.
   I don't think the abstract here really makes an argument.  We enumerate
   a list of 4 improvements and claim that some subset of these improvements
   provides 2 benefits:
-  (1) general ASDF goodness, and (2) scripting.  But we leave it
+  (1) general @(ASDF) goodness, and (2) scripting.  But we leave it
   entirely to the reader to guess the connections between improvements and
   benefits.  Another alternative would be to simply strike the discussion of
   scripting (defer to a different paper),
@@ -127,8 +133,7 @@ it also serves as the system loading infrastructure for
 @hyperlink["https://quicklisp.org/"]{Quicklisp},
 a growing collection of now over 1,400 @(CL) libraries.
 We present notable improvement made to @(ASDF)
-@elias{can we say "reported on it" rather than "published on it"?}
-since we last published on it @~cite[Lisp-Acceptable-Scripting-Language],
+since we last reported on it @~cite[Lisp-Acceptable-Scripting-Language],
 beside our addressing portability issues, bugs and bitrot.
 
 @section{Application Delivery}
@@ -140,7 +145,7 @@ support Embeddable Common Lisp (ECL), an implementation in which CL code may
 be translated into C and then compiled.
 To support ECL, @(ASDF) added @emph{bundle operations},
 which were later generalized to other CL implementations.
-ASDF now supports a wide variety of system delivery options.  Working with
+@(ASDF) now supports a wide variety of system delivery options.  Working with
 the portable foreign function interface CFFI, @(ASDF) can also bundle libraries
 and foreign code with a CL application.
 Finally, @(ASDF) has been enhanced to support rapid application start up.
@@ -179,29 +184,33 @@ they will have no idea what we are talking about.}
 Loading a large Lisp application, either from source or from compiled files,
 can take multiple seconds.
 This delay is acceptable at the start of a development session, but not
-@elias{what is meant by an instant program?}
-when invoking instant interactive programs at the shell command-line.
+@elias{what is meant by an instant program?} @;
+@fare{programs that users expect to finish in a subjective instant;
+say under 40ms including redrawing the prompt.} @;
+when invoking interactive programs at the shell command-line.
 @(ASDF3) can reduce this latency by delivering a standalone executable
 that can start in twenty milliseconds.
 However, such executables each occupy tens or hundreds of megabytes
 on disk and in memory.
 This size overhead is not much by current standards
-@elias{the second half of this sentence sounds a bit redundant}
-when a single application runs on a computer;
+@elias{the second half of this sentence sounds a bit redundant} @;
+@fare{Which? Better you just fix the sentences,
+and I'll fix it back or discuss if I don't like your fixes} @;
+for a single application running on a computer;
 but it can be prohibitive when deploying a large number
 of small scripts and utilities.
 A solution is to deliver a "multicall binary"
 à la @hyperlink["https://busybox.net/"]{Busybox}:
 a single binary includes several programs;
 the binary can be symlinked or hardlinked with multiple names,
-and detect which program is meant depending on what name it was invoked with;
-or users can explicitly specify which program to run.
+and will select which program to run based on the name used to invoke it@;
+@annotation{; users may also explicitly specify which program to run}.
 Zach Beane's @hyperlink["http://www.xach.com/lisp/buildapp/"]{@tt{buildapp}}
-@elias{"could do it" seems overly informal}
-could do it since 2010, but only worked on SBCL, and more recently CCL;
+provided this feature since 2010,
+but only worked on SBCL, and more recently CCL;
 since 2015, @hyperlink["http://www.cliki.net/cl-launch"]{@tt{cl-launch}},
 a portable interface between the Unix shell and all @(CL) implementations,
-also adopted the same capability.
+also provides it.
 @fare{
 Moreover, libraries now exist to help write Lisp utilities
 that are callable and usable at the shell command-line
@@ -299,13 +308,10 @@ and other ``scripting'' languages
 
 @section{Build Model Correctness}
 
-@elias{How does ``plan then execute`` relate to plan-then-build? Also,
-why is one written in quotes, one with dashes?}
-
 The original @(ASDF1) introduced
-a simple ``plan then execute'' model for building software.
+a simple ``plan-then-perform'' model for building software.
 It also introduced an extensible class hierarchy
-so ASDF could be extended in Lisp itself
+so @(ASDF) could be extended in Lisp itself
 to support more than just compiling Lisp files.
 For example, some @(ASDF) extensions supported writing FFI to C code.
 
@@ -343,20 +349,18 @@ nor perform any other actions that are potentially
 either out-of-date or not needed for the session;
 there are therefore several variants of traversals for the action graph.
 
-@elias{The words "latent in" confuse me here. Would replacing them
-with "instrinsic to" change the meaning here?}
-
 Note that the problem of dependency tracking in the presence of build extensions
-is latent in every build system in every language.
+is a user need that every build system has to either address or fail to address.
 Most build systems do not deal well with phase separation;
 most that do are language-specific build systems (like @(ASDF)),
-but only deal with staging macros or extensions inside the language,
+but (unlike @(ASDF)) only deal with
+staging macros or extensions inside the language,
 not with building arbitrary code outside the language.
 An interesting case is @hyperlink["https://bazel.build/"]{Bazel},
-which does maintain a strict plan-then-build model
+which does maintain a strict plan-then-perform model
 yet allows user-provided extensions
 (e.g. to support Lisp @~cite[Bazelisp-2016]).
-Its extensions, written in a safe restricted DSL,
+However, its extensions, written in a safe restricted DSL,
 @; running into plan phase only; (with two subphases, load and analysis)
 are not themselves subject to extension using the build system.
 @; (yet the DSL being a universal language, you could do it the hard way).
@@ -385,24 +389,16 @@ in its source-registry by default, so that there is always an obvious place
 in which to drop source code so that it will be found by @(ASDF),
 whether you want it to be visible to the end-user or not.
 
-@elias{Would replacing "heeds" with "respects" change the meaning here?}
-
-@(ASDF2) also heeds the
-@hyperlink["https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html"]{XDG}
-@; XXX cite? XDG Base Directory Specification, 2010
-environment variables to locate its configuration.
-@elias{This sentence seems broken (who allows what? also, the word
-"use" is used far too many times.}
-Since 2015, @(ASDF) exposes a configuration interface to users
-so all Lisp programs may use them and allow users to use this Unix standard
-to redirect where Lisp programs find their configuration.
-We also support this mechanism available on macOS and Windows,
-though we had to make some @(ASDF)-specific interpretations:
-the macOS filesystem layout does not match this Unix standard,
-and the Windows layout is completely different.
-
-@elias{What is meant by the macOS filesystem layout in the above? Is
-that even a thing?}
+@(ASDF2) and later consult the
+@hyperlink["https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html"]{XDG Base Directory} environment variables @~cite[XDG-2010]
+when locating its configuration.
+Since 2015, @(ASDF) exposes a configuration interface
+so all Lisp programs may similarly respect this Unix standard
+for locating configuration files.
+The mechanism is also made available on macOS and Windows,
+though with @(ASDF)-specific interpretations of the standard:
+XDG makes assumption about filesystem layout that
+do not always have a direct equivalent on macOS, and even less so on Windows.
 
 Finally, a concern for users
 with a large number of systems available as source code
@@ -430,12 +426,12 @@ whereas things just work without any such trouble for normal users.
 
 @rpg{revise...}
 
-We have demonstrated how @(ASDF) can be used to
+We have demonstrated improvements in how @(ASDF) can be used to
 portably and robustly deliver software written in @(CL),
 as an alternative to both ``scripting'' and ``programming'' languages.
-While our implementation is specific to @(CL),
-many of the same ideas could be applied to other languages,
-to extend their ability to deliver both ``scripts'' and applications.
+While our software is specific to @(CL),
+many of the same techniques could be applied to other languages,
+so they too may deliver both ``scripts'' and applications.
 
 In the future, there are many features we might want to add,
 in dimensions where @(ASDF) lags behind other build systems such as Bazel:
