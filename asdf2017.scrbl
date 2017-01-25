@@ -47,20 +47,19 @@ In this paper we discuss the most important improvements
 in @(ASDF) versions 3.2 and 3.3.
 @(ASDF) now offers portable mechanisms for
 delivering applications and libraries to users,
-rather than simply supporting build from source.
-@(ASDF) includes @(UIOP), a portability layer for @(ASDF).
+rather than simply compiling sets of interdependent lisp files into fasls.
+@(ASDF) includes @(UIOP), a portability library.
 We have substantially improved and extended @(UIOP)'s ability
 to spawn and control external processes, including asynchronous processes.
-One of the features of @(ASDF) is that it permits programmers to
+@(ASDF)  permits programmers to
 extend @(ASDF)'s build processes in an object-oriented way.
 Until @(ASDF3.2), however, @(ASDF) did not correctly handle
-updates to @(ASDF) extensions during incremental builds.
+updates to these extensions during incremental builds.
 Fixing this involved managing multiple phases of the @(ASDF) build process.
-Finally, we have substantially improved the process by which
-users can configure @(ASDF)'s search for system source code.
-Taken together, these improvements substantially increase
-@(ASDF)'s ability to support application and library
-development, delivery, and maintenance.
+There are also multiple improvements to @(ASDF)'s source finding,
+which now provides better default behaviors without any configuration,
+provides speed-up for power users willing to manage its location caching,
+and attempts to comply with standard configuration locations.
 }
 
 @elias{what does it mean for a build to be correct? it sounds odd. Do
