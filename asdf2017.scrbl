@@ -43,20 +43,19 @@
 
 @abstract{
 @(ASDF) is the @(de_facto) standard build system for @(CommonLisp) (CL).
-In this paper we discuss the most important improvements
+In this paper, we discuss the most important improvements
 in @(ASDF) versions 3.2 and 3.3.
-@(ASDF) now offers portable mechanisms for
-delivering applications and libraries to users,
-rather than simply compiling sets of interdependent lisp files into fasls.
-@(ASDF) includes @(UIOP), a portability library.
-We have substantially improved and extended @(UIOP)'s ability
-to spawn and control external processes, including asynchronous processes.
-@(ASDF)  permits programmers to
-extend @(ASDF)'s build processes in an object-oriented way.
-Until @(ASDF3.2), however, @(ASDF) did not correctly handle
+@(ASDF)'s ability to deliver applications as a single executable file
+now allows the static linking of arbitrary code written in C.
+We substantially improved @(ASDF)'s portability library @(UIOP),
+so its interface to spawn and control external processes
+now supports asynchronous processes.
+@(ASDF) permits programmers to extend @(ASDF)'s build processes
+in an object-oriented way;
+until @(ASDF3.2), however, @(ASDF) did not correctly handle
 updates to these extensions during incremental builds.
-Fixing this involved managing multiple phases of the @(ASDF) build process.
-There are also multiple improvements to @(ASDF)'s source finding,
+Fixing this involved managing the multiple phases in a @(ASDF) build process.
+We also improved @(ASDF)'s source finding,
 which now provides better default behaviors without any configuration,
 provides speed-up for power users willing to manage its location caching,
 and attempts to comply with standard configuration locations.
@@ -140,8 +139,8 @@ it also serves as the system loading infrastructure for
 @hyperlink["https://quicklisp.org/"]{Quicklisp},
 a growing collection of now over 1,400 @(CL) libraries.
 In this paper, we present some of the most notable improvements made to @(ASDF)
-since we last reported on it @~cite[Lisp-Acceptable-Scripting-Language], focusing on
-improvements to application delivery and subprocess management,
+since we last reported on it @~cite[Lisp-Acceptable-Scripting-Language],
+focusing on improvements to application delivery and subprocess management,
 better handling of @(ASDF) extensions, and
 source location configuration refinements.
 
@@ -170,36 +169,41 @@ and incorporated it into @(ASDF3).}
 a portable way to deliver a software system
 as a single, bundled file.
 This single file can be either:
-(1) a single source file, concatenating all the source code;
-(2) a single compiled FASL file;
+(1) a source file, concatenating all the source code;
+(2) a FASL file, combining all compiled code;
 (3) a saved image;
 or (4) a standalone application.
-At the programmer's discretion, the bundle may include with a system all the
-other systems it relies on.
+At the programmer's discretion, the bundle may include with a system
+all the other systems it transitively relies on.
 
 We made bundle operations stable and robust across
 all active @(CL) implementations and operating systems.
-We also extended these operations so that @(ASDF3.2) supports single-file delivery
+We also extended these operations so that
+@(ASDF3.2) supports single-file delivery
 of applications that incorporate arbitrary C code and libraries.
 This feature works in conjunction with CFFI-toolchain,
-an extension which we added to the @(de_facto) standard foreign function interface
+an extension which we added to the @(de_facto) standard
+foreign function interface
 @hyperlink["https://common-lisp.net/project/cffi/"]{CFFI}.
 CFFI-toolchain statically links arbitrary C code into the Lisp runtime.
 As of 2017, this feature works on three implementations:
 CLISP, ECL, and SBCL.
 
-@rpg{The following needs to be rewritten to be stand-alone.
-Right now, if the reader isn't familiar with busybox,
-they will have no idea what we are talking about.}
-
 Loading a large Lisp application, either from source or from compiled files,
 can take multiple seconds.
+@fare{This delay is acceptable at the start of a development session,
+but not when invoking interactive programs at the shell command-line.} @;
+@elias{what is meant by an instant program?} @;
+@fare{programs that users expect to finish in a subjective instant;
+say under 40ms including redrawing the prompt.} @;
 This delay may be unacceptable in use cases such as small utility programs,
 or filters in a Unix pipe chain.
 @(ASDF3) can reduce this latency by delivering a standalone executable
 that can start in twenty milliseconds.
 However, such executables each occupy tens or hundreds of megabytes
-on disk and in memory.
+on disk and in memory;
+this size can be prohibitive when deploying a large number
+of small utilities.
 A solution is to deliver a "multicall binary"
 à la @hyperlink["https://busybox.net/"]{Busybox}:
 a single binary includes several programs;
@@ -207,11 +211,11 @@ the binary can be symlinked or hardlinked with multiple names,
 and will select which entry point to run based on the name used to invoke it@;
 @annotation{; users may also explicitly specify which program to run}.
 Zach Beane's @hyperlink["http://www.xach.com/lisp/buildapp/"]{@tt{buildapp}}
-has supported such systems since 2010,
+has supported such binaries since 2010,
 but @tt{buildapp} only works on SBCL, and more recently CCL.
 @hyperlink["http://www.cliki.net/cl-launch"]{@tt{cl-launch}},
 a portable interface between the Unix shell and all @(CL) implementations,
-also has supported multicall systems since 2015.
+also has supported multicall binaries since 2015.
 @fare{
 Moreover, libraries now exist to help write Lisp utilities
 that are callable and usable at the shell command-line
@@ -302,7 +306,7 @@ With @(run-program) and now @(launch-program),
 for which one might previously have used a shell script,
 except in a much more robust way,
 with rich data structures instead of a ``stringly-typed'' language,
-and CL's higher-order functions and restartable error conditions
+and @(CL)'s higher-order functions and restartable error conditions
 @~cite[Lisp-Acceptable-Scripting-Language] @~cite[CL-Scripting-2015].
 
 @section{Build Model Correctness}
@@ -378,7 +382,7 @@ In 2010, @(ASDF2) introduced a basic principle for all configuration:
 and do not require anyone to contribute what he does not know}
 @~cite[Evolving-ASDF].
 In particular, everything should ``just work'' by default for end-users,
-without any need for configuration, but 
+without any need for configuration, but
 configuration should be possible for "power users" and
 unusual applications.
 
