@@ -168,21 +168,23 @@ and incorporated it into @(ASDF3).}
 
 @(ASDF3) introduced @bydef{bundle operations},
 a portable way to deliver a software system
-(and, optionally, all its transitive dependencies)
-as a single, bundled file, which can be either:
+as a single, bundled file.
+This single file can be either:
 (1) a single source file, concatenating all the source code;
-(2) as a single compiled FASL file;
-(3) as a saved image;
-or (4) as a standalone application.
+(2) a single compiled FASL file;
+(3) a saved image;
+or (4) a standalone application.
+At the programmer's discretion, the bundle may include with a system all the
+other systems it relies on.
 
 We made bundle operations stable and robust across
 all active @(CL) implementations and operating systems.
-We additionally extended them so that @(ASDF3.2) supports single-file delivery
-of applications that incorporates arbitrary C code and libraries.
-This feature works in conjunction with cffi-toolchain,
+We also extended these operations so that @(ASDF3.2) supports single-file delivery
+of applications that incorporate arbitrary C code and libraries.
+This feature works in conjunction with CFFI-toolchain,
 an extension which we added to the @(de_facto) standard foreign function interface
-@hyperlink["https://common-lisp.net/project/cffi/"]{CFFI},
-and which will statically link any such C code into the Lisp runtime.
+@hyperlink["https://common-lisp.net/project/cffi/"]{CFFI}.
+CFFI-toolchain statically links arbitrary C code into the Lisp runtime.
 As of 2017, this feature works on three implementations:
 CLISP, ECL, and SBCL.
 
@@ -192,34 +194,24 @@ they will have no idea what we are talking about.}
 
 Loading a large Lisp application, either from source or from compiled files,
 can take multiple seconds.
-This delay is acceptable at the start of a development session, but not
-@elias{what is meant by an instant program?} @;
-@fare{programs that users expect to finish in a subjective instant;
-say under 40ms including redrawing the prompt.} @;
-when invoking interactive programs at the shell command-line.
+This delay may be unacceptable in use cases such as small utility programs,
+or filters in a Unix pipe chain.
 @(ASDF3) can reduce this latency by delivering a standalone executable
 that can start in twenty milliseconds.
 However, such executables each occupy tens or hundreds of megabytes
 on disk and in memory.
-This size overhead is not much by current standards
-@elias{the second half of this sentence sounds a bit redundant} @;
-@fare{Which? Better you just fix the sentences,
-and I'll fix it back or discuss if I don't like your fixes} @;
-for a single application running on a computer;
-but it can be prohibitive when deploying a large number
-of small scripts and utilities.
 A solution is to deliver a "multicall binary"
 à la @hyperlink["https://busybox.net/"]{Busybox}:
 a single binary includes several programs;
 the binary can be symlinked or hardlinked with multiple names,
-and will select which program to run based on the name used to invoke it@;
+and will select which entry point to run based on the name used to invoke it@;
 @annotation{; users may also explicitly specify which program to run}.
 Zach Beane's @hyperlink["http://www.xach.com/lisp/buildapp/"]{@tt{buildapp}}
-provided this feature since 2010,
-but only worked on SBCL, and more recently CCL;
-since 2015, @hyperlink["http://www.cliki.net/cl-launch"]{@tt{cl-launch}},
+has supported such systems since 2010,
+but @tt{buildapp} only works on SBCL, and more recently CCL.
+@hyperlink["http://www.cliki.net/cl-launch"]{@tt{cl-launch}},
 a portable interface between the Unix shell and all @(CL) implementations,
-also provides it.
+also has supported multicall systems since 2015.
 @fare{
 Moreover, libraries now exist to help write Lisp utilities
 that are callable and usable at the shell command-line
@@ -279,7 +271,7 @@ but users can tell it to @tt{:ignore-exit-status},
 access and handle exit code themselves.
 
 @(ASDF3.2) introduces support for asynchronously running programs,
-using new functions @(launch-program), @(wait-process) and @(terminate-process).
+using new functions @(launch-program), @(wait-process), and @(terminate-process).
 These functions, available on capable implementations and platforms only,
 were written by @(EP), who refactored, extended and exposed
 logic previously used in the implementation of @(run-program).
@@ -310,9 +302,7 @@ With @(run-program) and now @(launch-program),
 for which one might previously have used a shell script,
 except in a much more robust way,
 with rich data structures instead of a ``stringly-typed'' language,
-and higher-order functions and restartable error conditions
-instead of the very poor control structures of shells
-and other ``scripting'' languages
+and CL's higher-order functions and restartable error conditions
 @~cite[Lisp-Acceptable-Scripting-Language] @~cite[CL-Scripting-2015].
 
 @section{Build Model Correctness}
@@ -388,9 +378,9 @@ In 2010, @(ASDF2) introduced a basic principle for all configuration:
 and do not require anyone to contribute what he does not know}
 @~cite[Evolving-ASDF].
 In particular, everything should ``just work'' by default for end-users,
-without any need for configuration:
-configuration is possible, but is only for power users
-and system administrators to specify how their setup differs.
+without any need for configuration, but 
+configuration should be possible for "power users" and
+unusual applications.
 
 @(ASDF3.1), now distributed with all active implementations,
 includes @tt{~/common-lisp/} as well as @tt{~/.local/share/common-lisp/}
@@ -431,17 +421,14 @@ But at least, there is now a standardized script for power users to do that,
 whereas things just work without any such trouble for normal users.
 
 
-@section{Conclusion and Future Work}
+@section{Conclusions and Future Work}
 
 @rpg{revise...}
 
 We have demonstrated improvements in how @(ASDF) can be used to
-portably and robustly deliver software written in @(CL),
-as an alternative to both ``scripting'' and ``programming'' languages.
-While our software is specific to @(CL),
-many of the same techniques could be applied to other languages,
-so they too may deliver both ``scripts'' and applications.
-
+portably and robustly deliver software written in @(CL).
+While the implementation is specific to @(CL),
+many of the same techniques could be applied to other languages.
 In the future, there are many features we might want to add,
 in dimensions where @(ASDF) lags behind other build systems such as Bazel:
 support for cross-compilation to other platforms,
