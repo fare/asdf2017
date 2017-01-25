@@ -139,9 +139,11 @@ by all actively maintained CL implementations;
 it also serves as the system loading infrastructure for
 @hyperlink["https://quicklisp.org/"]{Quicklisp},
 a growing collection of now over 1,400 @(CL) libraries.
-We present notable improvement made to @(ASDF)
-since we last reported on it @~cite[Lisp-Acceptable-Scripting-Language],
-beside our addressing portability issues, bugs and bitrot.
+In this paper, we present some of the most notable improvements made to @(ASDF)
+since we last reported on it @~cite[Lisp-Acceptable-Scripting-Language], focusing on
+improvements to application delivery and subprocess management,
+better handling of @(ASDF) extensions, and
+source location configuration refinements.
 
 @section{Application Delivery}
 
