@@ -36,7 +36,7 @@
   Common Lisp,
   Portability,
   Application Delivery,
-  demo
+  Demo
 }
 
 @title{Delivering Common Lisp Applications with @(ASDF3.3)}
@@ -54,7 +54,7 @@ now supports asynchronous processes.
 in an object-oriented way;
 until @(ASDF3.2), however, @(ASDF) did not correctly handle
 updates to these extensions during incremental builds.
-Fixing this involved managing the multiple phases in a @(ASDF) build process.
+Fixing this involved managing the multiple phases in an @(ASDF) build session.
 We also improved @(ASDF)'s source finding,
 which now provides better default behaviors without any configuration,
 provides speed-up for power users willing to manage its location caching,
@@ -173,8 +173,8 @@ This single file can be either:
 (2) a FASL file, combining all compiled code;
 (3) a saved image;
 or (4) a standalone application.
-At the programmer's discretion, the bundle may include with a system
-all the other systems it transitively relies on.
+In the first two cases, the programmer controls whether or not the bundle
+includes with a system all the other systems it transitively depends on.
 
 We made bundle operations stable and robust across
 all active @(CL) implementations and operating systems.
