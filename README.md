@@ -1,7 +1,7 @@
-Building Portable Common Lisp Applications with ASDF 3.3
-========================================================
+Delivering Common Lisp Applications with ASDF 3.3
+=================================================
 
-This is my proposal for a demonstration at
+This is a proposal for a demonstration at
 [ELS 2017](http://2017.programmingconference.org/track/els-2017).
 
 Viewing the article
