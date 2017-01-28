@@ -55,10 +55,10 @@ in an object-oriented way;
 until @(ASDF3.2), however, @(ASDF) did not correctly handle
 updates to these extensions during incremental builds.
 Fixing this involved managing the multiple phases in an @(ASDF) build session.
-We also improved @(ASDF)'s source finding,
-which now provides better default behaviors without any configuration,
-provides speed-up for power users willing to manage its location caching,
-and attempts to comply with standard configuration locations.
+We also improved @(ASDF)'s source finding:
+it provides more usable default behaviors without any configuration;
+power users willing to manage its location caching can speed it up;
+and it offers better compliance with standard configuration locations.
 }
 
 @elias{what does it mean for a build to be correct? it sounds odd. Do
@@ -204,7 +204,7 @@ However, such executables each occupy tens or hundreds of megabytes
 on disk and in memory;
 this size can be prohibitive when deploying a large number
 of small utilities.
-A solution is to deliver a "multicall binary"
+One solution is to deliver a ``multicall binary''
 à la @hyperlink["https://busybox.net/"]{Busybox}:
 a single binary includes several programs;
 the binary can be symlinked or hardlinked with multiple names,
@@ -270,7 +270,7 @@ as part of its portability library @(UIOP).
 By @(ASDF3.1) @(run-program) provided a full-fledged portable interface
 to synchronously execute commands in subprocesses:
 users can redirect and transform input, output, and error-output;
-by default @(run-program) will throw @(CL) conditions when a command fails,
+by default, @(run-program) will throw @(CL) conditions when a command fails,
 but users can tell it to @tt{:ignore-exit-status},
 access and handle exit code themselves.
 
@@ -303,10 +303,10 @@ In an adversarial setting, this can be a huge security liability.
 
 With @(run-program) and now @(launch-program),
 @(CL) can be used to portably write all kind of programs
-for which one might previously have used a shell script,
-except in a much more robust way,
-with rich data structures instead of a ``stringly-typed'' language,
-and @(CL)'s higher-order functions and restartable error conditions
+for which one might previously have used a shell script.
+Except @(CL)'s rich data structures, higher-order functions,
+sophisticated object system, restartable conditions and macros
+beat the offering of its scripting alternatives
 @~cite[Lisp-Acceptable-Scripting-Language] @~cite[CL-Scripting-2015].
 
 @section{Build Model Correctness}
@@ -316,47 +316,48 @@ a simple ``plan-then-perform'' model for building software.
 It also introduced an extensible class hierarchy
 so @(ASDF) could be extended in Lisp itself
 to support more than just compiling Lisp files.
-For example, some @(ASDF) extensions supported writing FFI to C code.
+For example, some extensions support interfacing with C code.
 
 Unfortunately, these two features were at odds with one another:
 to load a program that uses an @(ASDF) extension,
-one would first use @(ASDF) to plan and execute loading the extension,
-then one could plan and execute loading the target program,
-in two separate phases of planning and execution.
+one would in a first phase use @(ASDF) to plan then perform loading the extension;
+and one would in a second phase plan then perform loading the target program.
 Of course, there could be more than just two phases:
-some @(ASDF) could themselves require other extensions in order to load.
+some extensions could themselves require other extensions in order to load, etc.
 Moreover, the same libraries could be used in several phases.
 
-In practice, this simple approach was effective in building
-software from scratch, though not necessarily as efficient as possible
+In practice, this simple approach was effective
+in building software from scratch,
+though not necessarily as efficient as possible
 since libraries could sometimes unnecessarily
 be compiled or loaded more than once.
 However, in the case of an incremental build, @(ASDF) would overlook that
 a change in one phase could affect the build in a later phase,
 and fail to invalidate and re-perform actions accordingly.
-In particular, it would not reload a system definition
-when this definition itself depended on code that had changed.
+Indeed it failed to even consider loading a system definition as an action
+that may be invalidated and re-performed
+when it depended on code that had changed.
 The user was then responsible for diagnosing the failure and
 forcing a rebuild from scratch.
 
 @(ASDF3.3) fixes this issue by supporting the notion of
-a session within which code is built and loaded in multiple phases;
-it tracks the status of traversed actions across phases of a session,
+a session in which code is built and loaded in multiple phases.
+It tracks the status of traversed actions across phases of a session,
 whereby an action can independently be
 (1) considered up-to-date or not at the start of the session,
 (2) considered done or not for the session,
 and (3) considered needed or not during the session.
-When it merely checks whether an action is still valid from previous sessions,
-@(ASDF3.3) takes special care to neither load system definitions
-nor perform any other actions that are potentially
-either out-of-date or not needed for the session;
-there are therefore several variants of traversals for the action graph.
+When @(ASDF3.3) merely checks whether an action is still valid from previous sessions,
+it uses a special traversal that carefully avoids either loading system definitions
+or performing any other actions that are potentially
+either out-of-date or unneeded for the session.
 
-Note that the problem of dependency tracking in the presence of build extensions
-is a user need that every build system has to either address or fail to address.
-Most build systems do not deal well with phase separation;
-most that do are language-specific build systems (like @(ASDF)),
-but (unlike @(ASDF)) only deal with
+Build extensions are a common user need, though most build systems
+fail to offer proper dependency tracking when they change.
+Those build systems that do implement proper phase separation
+to track these dependencies
+are usually language-specific build systems (like @(ASDF)),
+but most of them (unlike @(ASDF)) only deal with
 staging macros or extensions inside the language,
 not with building arbitrary code outside the language.
 An interesting case is @hyperlink["https://bazel.build/"]{Bazel},
@@ -383,18 +384,20 @@ and do not require anyone to contribute what he does not know}
 @~cite[Evolving-ASDF].
 In particular, everything should ``just work'' by default for end-users,
 without any need for configuration, but
-configuration should be possible for "power users" and
+configuration should be possible for ``power users'' and
 unusual applications.
 
-@(ASDF3.1), now distributed with all active implementations,
+@(ASDF3.1), now offered by all active implementations,
 includes @tt{~/common-lisp/} as well as @tt{~/.local/share/common-lisp/}
-in its source-registry by default, so that there is always an obvious place
-in which to drop source code so that it will be found by @(ASDF),
-whether you want it to be visible to the end-user or not.
+in its source registry by default;
+there is thus always an obvious place in which to drop source code
+such that @(ASDF) will find it:
+under the former for code meant to be visible to end-users,
+under the latter for code meant to be hidden from them.
 
 @(ASDF2) and later consult the
-@hyperlink["https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html"]{XDG Base Directory} environment variables @~cite[XDG-2010]
-when locating its configuration.
+@hyperlink["https://standards.freedesktop.org/basedir-spec/basedir-spec-latest.html"]{XDG Base Directory}
+environment variables @~cite[XDG-2010] when locating its configuration.
 Since 2015, @(ASDF) exposes a configuration interface
 so all Lisp programs may similarly respect this Unix standard
 for locating configuration files.
@@ -427,12 +430,11 @@ whereas things just work without any such trouble for normal users.
 
 @section{Conclusions and Future Work}
 
-@rpg{revise...}
-
 We have demonstrated improvements in how @(ASDF) can be used to
 portably and robustly deliver software written in @(CL).
 While the implementation is specific to @(CL),
 many of the same techniques could be applied to other languages.
+
 In the future, there are many features we might want to add,
 in dimensions where @(ASDF) lags behind other build systems such as Bazel:
 support for cross-compilation to other platforms,
