@@ -24,3 +24,39 @@ To install the `acmart` package, do:
 
     git clone https://github.com/fare/acmart.git
     (cd acmart ; raco pkg install)
+
+
+Reviews
+-------
+
+The paper (at commit 9b197f4c) was accepted at ELS 2017 with the following reviews.
+
+
+### REVIEW 1
+
+PAPER: 3 <br />
+TITLE: Demonstration: Delivering Common Lisp Applications with ASDF 3.3 <br />
+AUTHORS: Robert Goldman, Elias Pipping and Francois-Rene Rideau <br />
+Overall evaluation: 2 (accept)
+
+The paper is a very nice summary of the evolution of ASDF from its inception to its current form and place within the Common Lisp ecosystem.  The description of newer functionalities in ASDF is obviously only hinted given the submission constraints, but it is nevertheless useful.
+
+Minor note: the references in the bibliography should include proper publication details.
+
+
+### REVIEW 2
+
+PAPER: 3 <br />
+TITLE: Demonstration: Delivering Common Lisp Applications with ASDF 3.3 <br />
+AUTHORS: Robert Goldman, Elias Pipping and Francois-Rene Rideau <br />
+Overall evaluation: 3 (strong accept)
+
+Definitely worthy of presentation. I only have a few minor issues:
+
+Introduction: "multiple seconds" is awkward and not very meaningful. Use "several"? Right after: absolute timings like "twenty milliseconds" don't mean much without specifying the exact conditions, hardware features, etc.
+
+Section 3: it would be nice to see an example of a "super-shell-script" that takes advantage of Lisp features using LAUNCH-PROGRAM.
+
+Section 5: "allow each one" - who are we talking about here?
+
+What is the demo going to show exactly?

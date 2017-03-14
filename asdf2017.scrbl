@@ -190,7 +190,7 @@ As of 2017, this feature works on three implementations:
 CLISP, ECL, and SBCL.
 
 Loading a large Lisp application, either from source or from compiled files,
-can take multiple seconds.
+can take several seconds.
 @fare{This delay is acceptable at the start of a development session,
 but not when invoking interactive programs at the shell command-line.} @;
 @elias{what is meant by an instant program?} @;
@@ -199,7 +199,7 @@ say under 40ms including redrawing the prompt.} @;
 This delay may be unacceptable in use cases such as small utility programs,
 or filters in a Unix pipe chain.
 @(ASDF3) can reduce this latency by delivering a standalone executable
-that can start in twenty milliseconds.
+that can start in tens of milliseconds.
 However, such executables each occupy tens or hundreds of megabytes
 on disk and in memory;
 this size can be prohibitive when deploying a large number
@@ -379,8 +379,8 @@ those libraries that are still maintained were fixed.
 @section{Source Location Configuration}
 
 In 2010, @(ASDF2) introduced a basic principle for all configuration:
-@emph{allow each one to contribute what he knows when he knows it,
-and do not require anyone to contribute what he does not know}
+@emph{allow each person to contribute what they know when they know it,
+and do not require anyone to contribute what they do not know}
 @~cite[Evolving-ASDF].
 In particular, everything should ``just work'' by default for end-users,
 without any need for configuration, but
