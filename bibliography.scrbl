@@ -77,6 +77,7 @@
   #:author "François-René Rideau and Robert Goldman"
   #:title "Evolving ASDF: More Cooperation, Less Coordination"
   ;; #:url "http://common-lisp.net/project/asdf/doc/ilc2010draft.pdf"
+  #:location (proceedings-location "ILC")
   #:date "2010")
 
 (define-bib quicklisp
@@ -105,15 +106,15 @@
   #:author "François-René Rideau"
   ;; European Lisp Symposium, 2014-05-05
   ;; #:url "http://github.com/fare/asdf3-2013/"
+  #:location (proceedings-location "ELS")
   #:date "2014")
 
 (define-bib Incommensurability
   #:title "The Structure of a Programming Language Revolution"
   #:author "Richard P. Gabriel"
-  ;; Proceeding
-  ;; Onward! 2012 Proceedings of the ACM international symposium on New ideas, new paradigms, and reflections on programming and software
-  ;; Pages 195-214
   ;; #:url "https://www.dreamsongs.com/Files/Incommensurability.pdf"
+  ;; Onward! 2012 Proceedings of the ACM international symposium on New ideas, new paradigms, and reflections on programming and software
+  #:location (proceedings-location "Onward!") ;; #:pages "195-214"
   #:date "2012")
 
 (define-bib CL-Scripting-2015
@@ -132,6 +133,7 @@
   #:title "Building Common Lisp programs using Bazel or Correct, Fast, Deterministic Builds for Lisp"
   #:author "James Y. Knight, François-René Rideau and Andrzej Walczak"
   ;; #:url "http://github.com/qitab/bazelisp"
+  #:location (proceedings-location "ELS")
   #:date "2016")
 
 (define-bib XDG-2010
