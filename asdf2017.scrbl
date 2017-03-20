@@ -340,14 +340,15 @@ when it depended on code that had changed.
 The user was then responsible for diagnosing the failure and
 forcing a rebuild from scratch.
 
-@(ASDF3.3) fixes this issue by supporting the notion of
-a session in which code is built and loaded in multiple phases.
+@(ASDF3.3) fixes this issue. It supports a notion of session
+wherein code is built and loaded in multiple phases.
 It tracks the status of traversed actions across phases of a session,
 whereby an action can independently be
 (1) considered up-to-date or not at the start of the session,
 (2) considered done or not for the session,
-and (3) considered needed or not during the session.
-When @(ASDF3.3) merely checks whether an action is still valid from previous sessions,
+and (3) considered needed or not during the session,
+and if so, for how early a phase.
+When @(ASDF3.3) checks whether an action is still valid from previous sessions,
 it uses a special traversal that carefully avoids either loading system definitions
 or performing any other actions that are potentially
 either out-of-date or unneeded for the session.
@@ -369,11 +370,12 @@ However, its extensions, written in a safe restricted DSL,
 are not themselves subject to extension using the build system.
 @; (yet the DSL being a universal language, you could do it the hard way).
 
-To fix the build model in @(ASDF3.3),
-some internals were changed in backward-incompatible ways.
+Fixing the build model in @(ASDF3.3)
+led to subtle backward-incompatible changes.
 Libraries available on Quicklisp were inspected,
-and their authors contacted if they were (ab)using those internals;
-those libraries that are still maintained were fixed.
+and their authors contacted if they depended on
+modified functionality or abandoned internals.
+Those libraries that are still maintained were fixed.
 
 
 @section{Source Location Configuration}
