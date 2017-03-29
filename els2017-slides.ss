@@ -42,6 +42,12 @@ This document is available under the bugroff license.
   (apply slide #:title (title-style title) body))
 (define (C . x) (para #:align 'center x))
 (define (CB . x) (C (apply bt x)))
+(define (smaller x) (text x 'default 20))
+(define (ASDF (x #f)) (tt (if x (string-append "ASDF " (object->string x)) "ASDF")))
+(define (object->string x) ;; isn't there a builtin for that?
+  (cond
+   [(string? x) x]
+   [(number? x) (number->string x)]))
 
 (slide
  #:title "Delivering Common Lisp Applications with ASDF 3.3"
@@ -55,26 +61,25 @@ This document is available under the bugroff license.
  #:title "This Talk"
  @para{This Talk: A progress report on @it{ASDF},}
  @para{de facto standard build system for @it{Common Lisp},}
- @para{continued evolution in the tradition of @it{Lisp},}
+ @para{continued evolution of the tradition of @it{Lisp},}
  @para{a language discovered, not created, in @it{1958}.}
  @comment{Lispers are radical conservatives}
  ~
  @CB{Plan}
  @para{Some Background}
  @para{Recent ASDF Progress}
- @para{Lessons for build systems in any language}
- @para{What lies ahead (for (CL?) build systems)})
+ @para{Lessons for build systems in any language})
 
 (xlide
  (title-style "Some Background"))
 
 (xlide
  #:title "What makes ASDF different"
- @para{DEFSYSTEM: compile & load "systems" @it{in-image}}
+ @para{@tt{DEFSYSTEM}: compile & load "systems" @it{in-image}}
  @para{C analogs: @tt{make}, @tt{ld.so}, @tt{pkg-config}, @tt{libc}}
  ~
  @para{Primarily designed for CL code}
- @para{ASDF: extensible in CL itself via OO protocol...}
+ @para{@(ASDF): extensible in CL itself via OO protocol...}
  @C{... can be made to build anything!}
  ~
  @para{Big focus on backward-compatibility}
@@ -82,35 +87,37 @@ This document is available under the bugroff license.
 
 (xlide
  #:title "Some History"
- @para{1976 Unix Make}
- @para{<1981 LISP MACHINE DEFSYSTEM}
- @para{1990 MK-DEFSYSTEM: portable, pre standard}
- @para{2001 .5 kloc danb's ASDF: extensible OO build}
- @para{2004 1.1 kloc danb's ASDF 1.85: de facto standard}
- @para{2010 3.3 kloc ASDF 2: robust portable configurable}
- @para{2013 9.7 kloc ASDF 3: correct, delivers, uiop}
- @para{2014 11.3 kloc ASDF 3.1: CL as scripting language}
- @para{2017 12.8 kloc ASDF 3.2: C linking, launch-program}
- @para{2017? 13.2 kloc ASDF 3.3: proper phase separation})
+ @para{1976 Unix @tt{Make}}
+ @para{<1981 Lisp Machine @tt{DEFSYSTEM}}
+ @para{1990 @tt{MK-DEFSYSTEM}: portable, pre ANSI}
+ @para{2001 @smaller{0.5 kloc} danb's @(ASDF): extensible OO build}
+ @para{2004 @smaller{1.1 kloc} danb's @(ASDF 1.85): de facto standard}
+ @para{2010 @smaller{3.3 kloc} @(ASDF 2): robust portable configurable}
+ @para{2013 @smaller{9.7 kloc} @(ASDF 3): correct, delivers, @tt{UIOP}}
+ @para{2014 @smaller{11.3 kloc} @(ASDF 3.1): CL as scripting language}
+ @para{2017 @smaller{12.8 kloc} @(ASDF 3.2): link C, @tt{launch-program}}
+ @para{2017? @smaller{13.2 kloc} @(ASDF 3.3): proper phase separation})
 
 (xlide
  #:title "Current Limitations"
  @para{Not declarative enough:}
  @para{CL has ubiquitous global side-effects}
- @para{Only one set of versions, global syntax, etc.}
  ~
- @para{Compared to bazel:}
- @para{No cross-compilation, no determinism, no scalability})
+ @para{One global set of system versions}
+ @para{One global syntax}
+ ~
+ @para{Compared to bazel, missing:}
+ @para{cross-compilation, determinism, scalability…})
 
 (xlide
  (title-style "New in ASDF"))
 
 (xlide
  #:title "Previously on this show..."
- @para{ASDF 3.1 (2014) ELS, ILC demos:}
+ @para{@(ASDF 3.1) (2014) ELS, ILC demos:}
  @para{CL as a scripting language}
  ~
- @para{Bazelisp (2016) ELS demo:}
+ @para{@tt{Bazelisp} (2016) ELS demo:}
  @para{scalably build executables}
  @para{with statically-linked C extensions})
 
@@ -133,7 +140,7 @@ This document is available under the bugroff license.
  ~
  @CB{New in ASDF 3.2 + cffi-toolchain (2017)}
  @para{Plain C code to link to: @tt{:c-file}}
- @para{cffi-toolchain: one place to deal with C compilation}
+ @para{@tt{cffi-toolchain}: one place to deal with C}
  ~
  @para{Not (yet) a general-purpose C build system}
  @para{Missing per-system compile and link flags})
@@ -162,13 +169,13 @@ This document is available under the bugroff license.
 (xlide
  #:title "Making a binary"
  @bt{ASDF 3.0 (2013): image-based delivery}
- @para{development image @code[(asdf:oos :image-op "foo")]}
- @para{standalone appli. @code[(asdf:oos :program-op "foo")]}
+ @para{devel. image @code[(asdf:oos :image-op "foo")]}
+ @para{standalone app. @code[(asdf:oos :program-op "foo")]}
  @para{Any C extensions must be dynamically linked}
  ~
  @bt{ASDF 3.2 (2017): with static C extensions}
- @para{@code[(asdf:oos :static-image-op "foo")]})
- @para{@code[(asdf:oos :static-program-op "foo")]}
+ @para{@code[(asdf:oos :static-image-op "foo")]}
+ @para{@code[(asdf:oos :static-program-op "foo")]})
 
 (xlide
  #:title "Demo time!"
@@ -198,16 +205,16 @@ This document is available under the bugroff license.
 
 (xlide
  #:title "Source Location Configuration: Before"
- @para{ASDF 1 (2001): push to @code[*central-registry*]}
- @para{early in @code[~/.sbclrc] — and for each implementation!}
+ @para{@(ASDF 1) (2001): push to @code[*central-registry*]}
+ @para{early in @code[~/.sbclrc] — repeat for each impl!}
  ~
- @para{ASDF 2 (2010): declare hierarchical source-registry}
+ @para{@(ASDF 2) (2010): declare hierarchical source-registry}
  @para{@code[~/.config/common-lisp/source-registry.conf]}
  @para{Inherit wider configuration, or override it, from CL…}
  @para{or from shell: @code[CL_SOURCE_REGISTRY], XDG vars}
  ~
- @para{By default @code[~/.local/share/common-lisp/source/]}
- @para{ASDF 3.1 (2014), also @code[~/common-lisp/]})
+ @para{Default ∋ @code[~/.local/share/common-lisp/source/]}
+ @para{@(ASDF 3.1) (2014), also @code[~/common-lisp/]})
 
 (xlide
  #:title "Source Location Configuration: After"
@@ -215,16 +222,16 @@ This document is available under the bugroff license.
  @para{2015: @tt{.cl-source-registry.cache} for a @tt{:tree}
        Regenerate with a standard @tt{#!/usr/bin/cl} script:
        @tt{asdf/tools/cl-source-registry-cache.lisp}}
- @para{Harkens back to ASDF-1-style symlink farms, but
+ @para{Harkens back to @(ASDF 1) style symlink farms, but
        only for impatient power users with lots of systems}
  @comment{Everything *just works* for newbies without configuration or administration}
  @para{2015: also multicall binaries with @tt{cl-launch}}
  @comment{@tt{buildapp} did it since 2010, but on SBCL only, then also CCL in 2013}
  ~
- @para{2016: expose interface to XDG base directory}
- @para{XDG also on Windows, modulo ASDF adaptation}
+ @para{2016: expose interface to XDG base directory vars @code[ ]
+       XDG also on Windows, modulo ASDF adaptation}
  ~
- @para{ASDF 3.2 (2017): the new release has it all})
+ @para{@(ASDF 3.2) (2017): the new release has it all})
 
 (xlide
  #:title "Deprecation Infrastructure"
@@ -237,12 +244,12 @@ This document is available under the bugroff license.
  @para{In 3.5, @tt{error} if @it{not deleted yet} from codebase}
  ~
  @para{@code[uiop/version] makes staged deprecation easy}
- @para{Part of UIOP 3.2, part of ASDF 3.2 (2017)})
+ @para{Part of @tt{UIOP 3.2}, part of @(ASDF 3.2) (2017)})
 
 (xlide
  #:title "Proper Phase Separation"
- @para{ASDF extensions: with CLOS. How to load one?}
- @para{Using ASDF!}
+ @para{@(ASDF) extensions: with CLOS. How to load one?}
+ @para{Using @(ASDF)!}
  ~
  @para{What if it itself relies on extensions?}
  @para{Build in multiple phases.}
@@ -255,48 +262,48 @@ This document is available under the bugroff license.
 
 (xlide
  #:title "Improper Phase Separation"
- @para{ASDF 1 had only two phases: plan, then perform}
+ @para{@(ASDF 1) had only two phases: plan, then perform}
  @para{(that was its least bug—see ASDF 2 & 3 papers)}
  ~
  @para{If @it{defining} system @code[foo] depends on @code[ext]:}
- @para{ASDF 1: @code[foo.asd] has @code[(oos 'load-op "ext")]}
- @para{ASDF 2: @code[:defsystem-depends-on ("ext")]}
- @para{ASDF 3: make it usable despite package issue}
+ @para{@(ASDF 1): @code[foo.asd] has @code[(oos 'load-op "ext")]}
+ @para{@(ASDF 2): @code[:defsystem-depends-on ("ext")]}
+ @para{@(ASDF 3): make it usable despite package issue}
  ~
- @para{Kind of works. ASDF unaware it's recursively called}
- @para{Missing rebuilds, extra builds, across phases})
+ @para{Kind of works. @(ASDF) unaware it's recursively called}
+ @para{Across phases: extra builds, @it{missing rebuilds}})
 
 (xlide
  #:title "Separating Phases"
- @para{ASDF 3.3: loading the asd file is itself an @it{action}!}
+ @para{@(ASDF 3.3): loading the asd file is itself an @it{action}!}
  @para{@code[define-op] — for @it{primary} systems.}
  ~
  @para{Big tricky refactoring of @code[find-system]:}
  @code[find-system > load-asd > operate > perform > load*]
  ~
- @para{ASDF 3 had a cache: only call @code[input-files] once}
+ @para{@(ASDF 3) had a cache: only call @code[input-files] once}
  @para{(its API functions define a pure attribute grammar)}
- @para{ASDF 3.3 extends it to a multi-phase @it{session}}
+ @para{@(ASDF 3.3) extends it to a multi-phase @it{session}}
  @para{One @code[plan] per phase, a @code[session] across phases.})
 
 (xlide
  #:title "Traversal of the Action Graph"
  @para{Many kinds of traversals of the graph of @it{actions}:}
- @para{ASDF 1: mark as needed, in this image}
- @para{ASDF 3: mark as needed, in any previous image}
- @para{ASDF 3: go thru all dependencies, e.g. to get list}
- @para{ASDF 3.3: query whether up-to-date}
+ @para{@(ASDF 1): mark as needed, in this image}
+ @para{@(ASDF 3): mark as needed, in any previous image}
+ @para{@(ASDF 3): go thru all dependencies, e.g. to get list}
+ @para{@(ASDF 3.3): query whether up-to-date}
  @comment{}
  ~
- @para{ASDF 1: 1 bit (keep), plus @it{"magic"} (=bugs)}
+ @para{@(ASDF 1): 1 bit (keep), plus @it{"magic"} (=bugs)}
  @comment{
-   Among other things, ASDF 1 (and 2) had two kind of dependencies,
+   Among other things, @(ASDF 1) (and @tt{2}) had two kind of dependencies,
    regular in-order-to and weaker do-first.
-   POIU then ASDF 3 discovered that actually
+   POIU then @(ASDF 3) discovered that actually
    there were instead two kinds of actions, needed-in-image or not.
  }
- @para{ASDF 3: 2 bit (needed-in-image), plus @it{timestamp}}
- @para{ASDF 3.3: 3 bit (done), plus @it{phase}})
+ @para{@(ASDF 3): 2 bit (needed-in-image), plus @it{timestamp}}
+ @para{@(ASDF 3.3): 3 bit (done), plus @it{phase}})
 
 (xlide
  #:title "Proper Phase Separation: Incompatibilities"
@@ -310,7 +317,7 @@ This document is available under the bugroff license.
        (temporary exception: @code[(require …)])}
  ~
  @para{Now very bad taste: misnamed secondary system @code[      ]
-       (used all over: once a ASDF 1 colloquialism)})
+       (used all over: once a @(ASDF 1) colloquialism)})
 
 (xlide
  #:title "Proper Phase Separation: How good are we?"
@@ -318,9 +325,9 @@ This document is available under the bugroff license.
    Build extensions is a universal need
  }
  ~
- @para{Most build systems (Make…): on par with ASDF 1}
+ @para{Most build systems (Make…): on par with @(ASDF 1)}
  @comment{
-   Most general build systems are on par with ASDF 1, and
+   Most general build systems are on par with @(ASDF 1), and
    cannot track dependencies across phases. For instance,
    Make can @tt{include} a target.
  }
@@ -348,7 +355,7 @@ This document is available under the bugroff license.
  }
  'next
  ~
- @t{ASDF is on the bleeding edge!?}
+ @para[#:align 'center]{@(ASDF) is on the bleeding edge!?}
  @comment{Which is a sad commentary on the state of build systems})
 
 (xlide
@@ -356,7 +363,7 @@ This document is available under the bugroff license.
 
 (xlide
  #:title "Evolving ASDF"
- @para{ASDF sucks—less}
+ @para{@(ASDF) sucks—less}
  @para{Amazing how much is done with how few klocs}
  @comment{
    It's incredibly primitive,
@@ -370,9 +377,9 @@ This document is available under the bugroff license.
  @para{Impedes declarativeness, reproducibility, etc.}
  ~
  @para{Evolution is costly (yet consider the alternative)}
- @para{Only gets worse as the code- and user- bases grow}
+ @para{Gets worse as the code- and user- bases grow}
  ~
- @para{Backward incompatibility takes at least 1-2 years}
+ @para{Backward-incompatible change: takes 1-2 years…}
  @comment{
    The extensive (but by no means complete) regression test suite
    that we grew since the days of ASDF 1 has proven extremely invaluable.
@@ -390,29 +397,28 @@ This document is available under the bugroff license.
 
 (xlide
  #:title "Beyond ASDF?"
- @para{Opportunity for much a better build system}
+ @para{The ultimate purpose of a build system is:}
+ @it{Division of labor}
  ~
+ @para{Opportunity for much a better build system.}
  @para{What design is worth starting from scratch?}
  @comment{Or going through a long and hard transition}
  ~
  @para{Core: Pure FRP, CLOS-style OO, versioning}
  @para{plus staging, virtualization, instrumentation}
  ~
- @para{The ultimate purpose of a build system is:}
- @it{Division of labor}
- ~
  @url{http://j.mp/BuildSystems})
 
 (xlide
  #:title "Enjoy ASDF!"
  @para{Common Lisp keeps improving, slowly:}
- @para{AI, e-commerce, games}
- @para{web, desktop or mobile apps; and now scripts @tt{#!}}
+ @para{AI, e-commerce, games…}
+ @para{Web, desktop or mobile apps—and now scripts @tt{#!}}
  ~
- @para{ASDF also keeps improving, slowly.}
+ @para{@(ASDF) also keeps improving, slowly.}
  @para{If there were demand, it could improve faster…}
  ~
- @para[#:align 'center]{Donate to ASDF through the CLF!}
+ @para[#:align 'center]{Donate to @(ASDF) through the CLF!}
  ~
  @url{https://common-lisp.net/project/asdf/})
 

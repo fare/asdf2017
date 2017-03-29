@@ -46,3 +46,6 @@ rsync: html pdf
 
 els:
 	slideshow --start $${p:-1} els2017-slides.ss
+
+els2017-slides.pdf: els2017-slides.ss
+	slideshow --pdf -o $@ $<
