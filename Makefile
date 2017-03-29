@@ -44,3 +44,5 @@ mrproper:
 rsync: html pdf
 	rsync -av ${ae}.html ${ae}.pdf common-lisp.net:~frideau/public_html/asdf2017/
 
+els:
+	slideshow --start $${p:-1} els2017-slides.ss
