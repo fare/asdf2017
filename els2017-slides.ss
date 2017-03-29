@@ -162,13 +162,17 @@ This document is available under the bugroff license.
 (xlide
  #:title "Making a binary"
  @bt{ASDF 3.0 (2013): image-based delivery}
- @para{standalone appli. @code[(asdf:oos :program-op "foo")]}
  @para{development image @code[(asdf:oos :image-op "foo")]}
+ @para{standalone appli. @code[(asdf:oos :program-op "foo")]}
  @para{Any C extensions must be dynamically linked}
  ~
  @bt{ASDF 3.2 (2017): with static C extensions}
- @para{@code[(asdf:oos :static-program-op "foo")]}
  @para{@code[(asdf:oos :static-image-op "foo")]})
+ @para{@code[(asdf:oos :static-program-op "foo")]}
+
+(xlide
+ #:title "Demo time!"
+ @code[(asdf:make "workout-timer/static")])
 
 (xlide
  #:title "Asynchronous subprocesses"
@@ -208,12 +212,14 @@ This document is available under the bugroff license.
 (xlide
  #:title "Source Location Configuration: After"
  @para{Recursing through large trees can be very slow}
- @para{2015: @tt{.cl-source-registry.cache} for a @tt{:tree}}
- @para{Regenerate with a standard @tt{#!/usr/bin/cl} script:
+ @para{2015: @tt{.cl-source-registry.cache} for a @tt{:tree}
+       Regenerate with a standard @tt{#!/usr/bin/cl} script:
        @tt{asdf/tools/cl-source-registry-cache.lisp}}
  @para{Harkens back to ASDF-1-style symlink farms, but
        only for impatient power users with lots of systems}
  @comment{Everything *just works* for newbies without configuration or administration}
+ @para{2015: also multicall binaries with @tt{cl-launch}}
+ @comment{@tt{buildapp} did it since 2010, but on SBCL only, then also CCL in 2013}
  ~
  @para{2016: expose interface to XDG base directory}
  @para{XDG also on Windows, modulo ASDF adaptation}
@@ -404,7 +410,7 @@ This document is available under the bugroff license.
  @para{web, desktop or mobile apps; and now scripts @tt{#!}}
  ~
  @para{ASDF also keeps improving, slowly.}
- @para{If there were demand, it could improve faster.}
+ @para{If there were demand, it could improve faster…}
  ~
  @para[#:align 'center]{Donate to ASDF through the CLF!}
  ~
