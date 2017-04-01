@@ -76,7 +76,7 @@ This document is available under the bugroff license.
 (xlide
  #:title "What makes ASDF different"
  @para{@tt{DEFSYSTEM}: compile & load "systems" @it{in-image}}
- @para{C analogs: @tt{make}, @tt{ld.so}, @tt{pkg-config}, @tt{libc}}
+ @para{C analogs: @tt{make}, @tt{pkg-config}, @tt{ld.so}, @tt{libc}}
  ~
  @para{Primarily designed for CL code}
  @para{@(ASDF): extensible in CL itself via OO protocol...}
@@ -87,12 +87,14 @@ This document is available under the bugroff license.
 
 (xlide
  #:title "Some History"
- @para{1976 Unix @tt{Make}}
- @para{<1981 Lisp Machine @tt{DEFSYSTEM}}
- @para{1990 @tt{MK-DEFSYSTEM}: portable, pre ANSI}
- @para{2001 @smaller{0.5 kloc} danb's @(ASDF): extensible OO build}
- @para{2004 @smaller{1.1 kloc} danb's @(ASDF 1.85): de facto standard}
+ @para{<1981 Lisp Machine @tt{DEFSYSTEM} (1976 Make)}
+ @para{1990 @tt{MK-DEFSYSTEM}: portable, pre ANSI CL}
+ @para{2001 @smaller{0.5 kloc} @(ASDF 1): danb's OO build (2004 @smaller{1.1 kloc})}
+ ;;@para{2004 @smaller{1.1 kloc} danb's @(ASDF 1.85): de facto standard}
+ ;;@para{2009 @smaller{2.0 kloc} gwking's @(ASDF 1.369): fighting bugs}
+ @para{2009 @smaller{2.0 kloc} @(ASDF 1.369) struggling with issues}
  @para{2010 @smaller{3.3 kloc} @(ASDF 2): robust portable configurable}
+ @para{2012 @smaller{4.5 kloc} @(ASDF 2.26): stable, one last issue…}
  @para{2013 @smaller{9.7 kloc} @(ASDF 3): correct, delivers, @tt{UIOP}}
  @para{2014 @smaller{11.3 kloc} @(ASDF 3.1): CL as scripting language}
  @para{2017 @smaller{12.8 kloc} @(ASDF 3.2): link C, @tt{launch-program}}
