@@ -52,8 +52,11 @@ This document is available under the bugroff license.
 (slide
  #:title "Delivering Common Lisp Applications with ASDF 3.3"
  @bt{Pushing the Envelope or Therapeutic Fury?}
- ~ ~ ~ ~
- @C{@t{François-René Rideau,} @it{TUNES Project}}
+ ~ ~ ~
+ @C{@t{Robert P. Goldman,} @it{SIFT}}
+ @C{@t{Elias Pipping,} @it{FU Berlin}}
+ @C{@t{François-René Rideau,} @it{TUNES}}
+ ~
  @t{European Lisp Symposium, 2017-04-03}
  @url{http://github.com/fare/asdf2017/})
 

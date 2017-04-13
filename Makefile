@@ -11,7 +11,7 @@ html: ${ae}.html
 pdf: ${ae}.pdf
 PDF: pdf ${ae}.PDF
 
-install: asdf2017.html asdf2017.pdf
+install: asdf2017.html asdf2017.pdf els2017-slides.pdf
 	rsync -av --delete $^ *.js *.css ~/files/asdf2017/
 	rsync -av --delete ~/files/asdf2017/ bespin:files/asdf2017/
 
