@@ -19,7 +19,7 @@ The source for the slides, including some comments,
 are in [els2017-slides.ss](els2017-slides.ss),
 and a corresponding PDF is at:
 
-  * http://fare.tunes.org/files/cs/els2017-slides.pdf
+  * http://fare.tunes.org/files/asdf2017/els2017-slides.pdf
 
 
 Notes
