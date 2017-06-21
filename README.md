@@ -12,8 +12,11 @@ You can find a PDF version of the article (2 pages) at:
   * http://fare.tunes.org/files/asdf2017/asdf2017.pdf
 
 
-Slides
-------
+Presentation
+------------
+
+The article was
+[presented at ELS 2017 (video)](https://www.youtube.com/watch?v=W4YcsP2FZh4&index=7&list=PLA66mD-6yK8yi-nggbOF1dWusHnu2u6hw).
 
 The source for the slides, including some comments,
 are in [els2017-slides.ss](els2017-slides.ss),
