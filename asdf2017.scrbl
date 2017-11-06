@@ -1,4 +1,4 @@
-#lang scribble/acmart @(format "sigplan") @authorversion
+#lang scribble/acmart-fare @(format "sigplan") @authorversion @9pt
 @;-*- Scheme -*-
 
 @(require scribble/base

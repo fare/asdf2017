@@ -30,7 +30,8 @@ Notes
 
 The article can be compiled using PLT Racket's Scribble, from
 [asdf2017.scrbl](https://github.com/fare/asdf2017/blob/master/asdf2017.scrbl),
-using the experimental [acmart](https://github.com/fare/acmart) package.
+using an experimental [acmart](https://github.com/fare/acmart) package that predates
+the official `scribble/acmart` package now included in the Racket distribution.
 See the various [Makefile](https://github.com/fare/asdf2017/blob/master/Makefile) targets.
 
 To install the `acmart` package, do:

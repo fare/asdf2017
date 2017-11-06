@@ -9,7 +9,7 @@
   scribble/manual
   scriblib/autobib
   scriblib/footnote
-  (only-in scribble/acmart acmart-style)
+  (only-in scribble/acmart-fare acmart-style)
   (for-syntax syntax/parse))
 
 (provide (all-defined-out))
